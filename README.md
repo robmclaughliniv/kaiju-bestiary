@@ -30,19 +30,20 @@ These entries define the initial creative range of the universe:
 
 ## Repository map
 
-- `canon/` immutable truths, terminology, and continuity rules
+- `canon/` immutable truths, terminology, continuity ledger, and timeline
 - `world/` regions, seas, settlements, cultures, and geography
 - `guild/` the Natural Phenomena Preservation Society and its records
-- `bestiary/` numbered kaiju dossiers
+- `bestiary/` numbered kaiju dossiers (Established spreads and Working field dossiers)
 - `ecology/` food webs, migrations, and interspecies relationships
 - `systems/` classification, threat ratings, and game-facing frameworks
 - `art/` visual language, finished-art notes, and generation briefs
-- `production/` roadmap and publishing workflow
-- `working/` unresolved ideas and experiments
+- `production/` roadmap, archive workflow, and publishing checklist
+
+Contributor operations (formats, numbering constraints, pitfalls): `production/archive-workflow.md`.
 
 ## Current phase
 
-Phase One establishes the Guild Archive, its taxonomy, the Founding Four, and the chronology connecting their discoveries. New entries should expand the universe's categories rather than repeat an existing silhouette, habitat, or narrative function.
+Phase One establishes the Guild Archive, its taxonomy, the Founding Four, and the chronology connecting their discoveries. Mourning Reach botanical dossiers remain Working canon and still need unused catalog numbers so they no longer collide with Founding Four indices. New entries should expand the universe's categories rather than repeat an existing silhouette, habitat, or narrative function.
 
 ## Canon status
 
