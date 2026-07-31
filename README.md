@@ -2,6 +2,10 @@
 
 A living field archive of colossal organisms, impossible ecologies, lost expeditions, and the people who study, survive, worship, and misunderstand them.
 
+**Browse the archive:** https://kaiju-bestiary.robmclaughl.in — a Pokédex-style
+web app generated straight from the markdown in this repository. Add a dossier
+in `bestiary/`, and it appears on the site. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 This repository is the canonical source of truth for **The Kaiju Bestiary** universe. It supports illustrated Guild dossiers, maps, expedition journals, fiction, RPG systems, a future website, and a premium art book.
 
 ## The premise
@@ -39,6 +43,8 @@ These entries define the initial creative range of the universe:
 - `art/` visual language, finished-art notes, and generation briefs
 - `production/` roadmap and publishing workflow
 - `working/` unresolved ideas and experiments
+- `src/`, `index.html` the archive website (Vite + React; see CONTRIBUTING.md)
+- `terraform/`, `scripts/`, `.github/` hosting and CI (S3 + CloudFront on robmclaughl.in)
 
 ## Current phase
 
