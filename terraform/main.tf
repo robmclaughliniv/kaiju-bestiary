@@ -60,6 +60,12 @@ module "site" {
   repo      = "robmclaughliniv/kaiju-bestiary"
   spa_mode  = true
 
+  # Repo created after GitHub's 2026-07-15 immutable OIDC sub cutover — trust both formats.
+  allowed_oidc_subjects = [
+    "repo:robmclaughliniv/kaiju-bestiary:*",
+    "repo:robmclaughliniv@30362970/kaiju-bestiary@1305367066:*",
+  ]
+
   # API add-on for the community Workshop (create/list kaiju at runtime).
   enable_api      = true
   enable_dynamodb = true
