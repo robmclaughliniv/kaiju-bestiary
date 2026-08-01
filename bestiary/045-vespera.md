@@ -3,7 +3,18 @@
 **Guild epithet:** The Song That Remembers  
 **Japanese display name:** ヴェスペラ  
 **Field designation:** 045-A  
-**Canon status:** Established
+**Canon status:** Established  
+**Attribute:** Echo / Astral  
+**Accent:** aerial  
+**Japanese epithet:** 響歌怪獣  
+**Seal kanji:** 響歌  
+**Calligraphy:** 記憶の歌  
+**Hazard:** 3  
+**Hunt rank:** S  
+**Documented hunts:** 12  
+**Expedition value:** 95000  
+**Bounty:** 0  
+**Rarity:** 5  
 
 ## Classification
 
@@ -34,19 +45,65 @@ Its defining behavior is song. The full sequence is rarely heard and never relia
 
 Observers separated by great distances have produced nearly identical architectural sketches after exposure. This suggests the song transmits structured information rather than merely causing hallucination.
 
+## Resistances
+
+| Type | Modifier |
+|---|---|
+| Slash | Neutral |
+| Pierce | Neutral |
+| Blunt | Resist |
+| Fire | Resist |
+| Ice | Resist |
+| Lightning | Weak |
+| Poison | Neutral |
+| Light | Absorb |
+| Dark | Resist |
+
+## Combat profile
+
+**Level:** 78  
+**HP:** 280000  
+**MP:** 640  
+**Attack:** 210  
+**Defense:** 520  
+**Magic attack:** 920  
+**Magic defense:** 880  
+**Agility:** 410  
+**Accuracy:** 380  
+**Evasion:** 450  
+
 ## Recorded abilities
 
 ### Resonant Hymn
+**MP:** 36  
+**Japanese:** 共鳴賛歌  
 A harmonic emission affecting nervous systems, instruments, weather, and nearby mineral formations.
 
 ### Resonant Levitation
+**MP:** 28  
+**Japanese:** 浮遊共鳴  
 Manipulates local pressure and vibration, allowing Vespera and surrounding debris to remain aloft.
 
 ### Weaver of Memory
+**MP:** 44  
+**Japanese:** 記憶織  
 Induces visions or memories that may not belong to the listener. Whether these images concern the past, another place, or another intelligence remains disputed.
 
 ### Resonant Crystallization
+**MP:** 52  
+**Japanese:** 結晶化  
+**Ultimate:** true  
 Produces temporary crystalline structures from airborne particulates. These often resemble fragments of impossible architecture.
+
+## Recoverable materials
+
+| Material | Chance | Note |
+|---|---:|---|
+| Resonance Filament | 28% | |
+| Ivory Plate | 22% | |
+| Memory Crystal | 15% | |
+| Hymn Shard | 8% | |
+| Cathedral Fragment | 1% | Rare |
 
 ## Guild advisory
 

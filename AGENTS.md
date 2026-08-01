@@ -62,18 +62,25 @@ Use `**Key:** value` lines near the top of the dossier.
 | Range / habitat | `Known range` | `Primary habitat` |
 | First record | — | `First verified record` |
 
+Optional **Guild hunt UI** keys (see [systems/guild-hunt-ui.md](systems/guild-hunt-ui.md)) drive the entry-page dossier layout: `Attribute`, `Guild type`, `Rarity`, `Accent`, `Japanese epithet`, `Seal kanji`, `Calligraphy`, `Hazard`, `Hunt rank`, `Documented hunts`, `Expedition value`, `Bounty`.
+
 The entry page also parses these sections into structured UI panels (keep the shapes below):
 
 | UI panel | Markdown source |
 |---|---|
-| Threat gauges | `## Threat assessment` — six-axis GFM table (0–5 ratings) |
-| Abilities / guidance | `## Recorded abilities` with `###` subsections, or `## Field guidance` |
-| Scale comparison | `## Scale` with `**Estimated length:**`, `**Estimated mass:**`, etc. |
-| Identification excerpt | First prose paragraph under `## Identification` |
+| Profile / parchment | Header meta + first prose under `## Identification` |
+| Hazard meter | `Hazard` or `Toxicity` meta |
+| Resistances grid | `## Resistances` GFM table |
+| Status bars | `## Combat profile` (optional telemetry) |
+| Threat gauges | `## Threat assessment` — six-axis GFM table (fallback when no combat profile) |
+| Skills | `## Recorded abilities` with optional `**MP:**`, `**Japanese:**`, `**Ultimate:**` |
+| Drops | `## Recoverable materials` GFM table |
+| Scale comparison | `## Scale` with `**Estimated length:**`, etc. |
+| Footer rank / calligraphy | `Hunt rank`, `Calligraphy`, first sentence of `## Ecological role` |
 
 Threat assessment for Working entries uses the six-axis table in
 [systems/threat-system.md](systems/threat-system.md). Do not replace it with a
-single combat tier.
+single combat tier. `## Combat profile` is optional Guild telemetry only.
 
 ## Mourning Reach and ecology
 

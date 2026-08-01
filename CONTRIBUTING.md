@@ -58,6 +58,11 @@ Working entries use the six-axis threat table from
 [systems/threat-system.md](systems/threat-system.md). Established spreads use
 the threat index vocabulary from [systems/classification.md](systems/classification.md).
 
+Optional **Guild hunt UI** fields (`Attribute`, `Rarity`, `Accent`, resistances,
+combat profile, recoverable materials, etc.) are documented in
+[systems/guild-hunt-ui.md](systems/guild-hunt-ui.md). Combat profile does not
+replace the six-axis threat table.
+
 ### Excerpt tip
 
 The dex card shows the first prose paragraph under an `##` section. Lists,

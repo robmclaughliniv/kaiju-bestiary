@@ -3,7 +3,18 @@
 **Guild epithet:** The Earth That Walks  
 **Japanese display name:** グラヴォラックス  
 **Field designation:** 001-A  
-**Canon status:** Established
+**Canon status:** Established  
+**Attribute:** Primordial / Mineral  
+**Accent:** mineral  
+**Japanese epithet:** 地走怪獣  
+**Seal kanji:** 地裂  
+**Calligraphy:** 大地怒涛  
+**Hazard:** 5  
+**Hunt rank:** S  
+**Documented hunts:** 7  
+**Expedition value:** 85000  
+**Bounty:** 120000  
+**Rarity:** 5  
 
 ## Classification
 
@@ -34,19 +45,65 @@ This has created the central dispute around No.001: whether Gravorax causes disa
 
 It does not appear to feed conventionally. Probable energy sources include piezoelectric conversion, heat exchange, and mineral absorption.
 
+## Resistances
+
+| Type | Modifier |
+|---|---|
+| Slash | Resist |
+| Pierce | Strong |
+| Blunt | Absorb |
+| Fire | Resist |
+| Ice | Resist |
+| Lightning | Weak |
+| Poison | Neutral |
+| Light | Neutral |
+| Dark | Resist |
+
+## Combat profile
+
+**Level:** 92  
+**HP:** 420000  
+**MP:** 180  
+**Attack:** 890  
+**Defense:** 980  
+**Magic attack:** 420  
+**Magic defense:** 760  
+**Agility:** 120  
+**Accuracy:** 280  
+**Evasion:** 95  
+
 ## Recorded abilities
 
 ### Earthbreak Stomp
+**MP:** 42  
+**Japanese:** 地裂踏  
 A forelimb impact that produces a radial ground wave capable of collapsing fortifications and exposing buried fault lines.
 
 ### Rock-Horn Charge
+**MP:** 38  
+**Japanese:** 岩角突  
 A direct, accelerating advance through obstacles. Gravorax does not maneuver well at speed.
 
 ### Compression Build
+**MP:** 24  
+**Japanese:** 圧蓄  
 Stores mechanical pressure within dorsal crystal organs. Prolonged storage is visible as intensifying blue light and increasing local tremors.
 
 ### Tectonic Release
+**MP:** 88  
+**Japanese:** 地殻解放  
+**Ultimate:** true  
 A massive shockwave generated when accumulated pressure is discharged through the body. The exact upper limit is unknown.
+
+## Recoverable materials
+
+| Material | Chance | Note |
+|---|---:|---|
+| Metamorphic Plate | 35% | |
+| Pressure Crystal | 22% | |
+| Seismic Dust | 18% | |
+| Fault-Line Shard | 12% | |
+| Core Fragment | 3% | Rare |
 
 ## Guild advisory
 

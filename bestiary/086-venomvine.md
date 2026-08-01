@@ -3,7 +3,20 @@
 **Canon status:** Working canon  
 **Operational class:** Class IV — Regional Crisis  
 **Known range:** Widowfen and southern Mourning Reach waterways  
-**Primary ecology:** Distributed predatory vine network
+**Primary ecology:** Distributed predatory vine network  
+**Attribute:** Toxic / Plant  
+**Guild type:** Watershed Vine Network  
+**Rarity:** 5  
+**Accent:** toxic  
+**Japanese display name:** ヴェノムヴァイン  
+**Japanese epithet:** 毒蔓怪獣  
+**Seal kanji:** 毒蔓  
+**Calligraphy:** 湿地牢獄  
+**Hazard:** MAX  
+**Hunt rank:** A  
+**Documented hunts:** 6  
+**Expedition value:** 42000  
+**Bounty:** 38000  
 
 ## Identification
 
@@ -35,6 +48,72 @@ Widowfen settlements harvest diluted venom for medicine, lacquer, and hunting co
 | Persistence | 5 | Fragmentation often spreads rather than kills it. |
 | Intelligence | 3 | Route learning strongly suspected. |
 | Cascade | 5 | Eradication radically alters wetland ecology. |
+
+## Resistances
+
+| Type | Modifier |
+|---|---|
+| Slash | Weak |
+| Pierce | Resist |
+| Blunt | Neutral |
+| Fire | Weak |
+| Ice | Resist |
+| Lightning | Neutral |
+| Poison | Absorb |
+| Light | Neutral |
+| Dark | Resist |
+
+## Combat profile
+
+**Level:** 62  
+**HP:** 124000  
+**MP:** 360  
+**Attack:** 440  
+**Defense:** 520  
+**Magic attack:** 580  
+**Magic defense:** 490  
+**Agility:** 180  
+**Accuracy:** 420  
+**Evasion:** 310  
+
+## Scale
+
+- **Estimated length:** 2 km (network span)
+- **Estimated mass:** Indeterminable
+- **Locomotion:** Distributed creep and bloom propagation
+
+## Recorded abilities
+
+### Path Reshape
+**MP:** 20  
+**Japanese:** 路形改  
+Reshapes wetland paths and narrows waterways to funnel repeated traffic into ambush zones.
+
+### Bloom Sac Burst
+**MP:** 28  
+**Japanese:** 胞嚢爆  
+Releases floating blue sacs that burst when disturbed and seed downstream colonies.
+
+### Adaptive Toxin
+**MP:** 36  
+**Japanese:** 適応毒  
+Alters venom composition based on airborne chemistry sampled by warning bulbs.
+
+### Constriction Maze
+**MP:** 44  
+**Japanese:** 絞蔓迷宮  
+**Ultimate:** true  
+Contracts multiple vine segments simultaneously to trap prey across a distributed network.
+
+## Recoverable materials
+
+| Material | Chance | Note |
+|---|---:|---|
+| Venom Slurry | 35% | |
+| Contractile Fiber | 25% | |
+| Warning Bulb | 18% | |
+| Bloom Sac | 12% | |
+| Network Node | 3% | Rare |
 
 ## Field guidance
 

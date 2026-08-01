@@ -1,9 +1,9 @@
-export default function ThreatPanel({ axes }) {
+export default function ThreatPanel({ axes, className = "" }) {
   if (!axes?.length) return null;
 
   return (
-    <section className="hud-panel hud-threat" aria-label="Threat assessment">
-      <h2 className="hud-panel-title">Threat assessment</h2>
+    <section className={`hud-panel hud-threat hunt-panel ${className}`.trim()} aria-label="Threat assessment">
+      <h2 className="hud-panel-title hunt-panel-title">Threat assessment</h2>
       <ul className="threat-gauges">
         {axes.map((row) => (
           <li key={row.axis} className="threat-gauge">

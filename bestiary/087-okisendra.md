@@ -3,7 +3,18 @@
 **Guild epithet:** The Blighting Rot  
 **Japanese display name:** オキシデンドラ  
 **Field designation:** 087-A  
-**Canon status:** Established
+**Canon status:** Established  
+**Attribute:** Botanical / Corrosive  
+**Accent:** toxic  
+**Japanese epithet:** 腐林怪獣  
+**Seal kanji:** 腐林  
+**Calligraphy:** 腐敗開花  
+**Hazard:** MAX  
+**Hunt rank:** S  
+**Documented hunts:** 3  
+**Expedition value:** 72000  
+**Bounty:** 95000  
+**Rarity:** 5  
 
 ## Classification
 
@@ -38,22 +49,70 @@ These successor organisms may be parts of Okisendra, dependent species, or an in
 
 The kaiju appears to seek wet, biologically dense regions. It avoids arid terrain unless pursuing a water source.
 
+## Resistances
+
+| Type | Modifier |
+|---|---|
+| Slash | Resist |
+| Pierce | Weak |
+| Blunt | Neutral |
+| Fire | Weak |
+| Ice | Resist |
+| Lightning | Neutral |
+| Poison | Absorb |
+| Light | Resist |
+| Dark | Neutral |
+
+## Combat profile
+
+**Level:** 68  
+**HP:** 185000  
+**MP:** 420  
+**Attack:** 560  
+**Defense:** 480  
+**Magic attack:** 710  
+**Magic defense:** 520  
+**Agility:** 240  
+**Accuracy:** 360  
+**Evasion:** 280  
+
 ## Recorded abilities
 
 ### Acid Spore Cloud
+**MP:** 28  
+**Japanese:** 酸胞雲  
 Releases airborne spores suspended in corrosive vapor. Exposure damages lungs, eyes, filters, optics, and untreated metal.
 
 ### Sap Jet
+**MP:** 22  
+**Japanese:** 樹液射  
 Projects high-pressure acidic sap over long distances.
 
 ### Vine Constriction
+**MP:** 34  
+**Japanese:** 蔓絞  
 Entangles and crushes large prey, vehicles, trees, or defensive structures.
 
 ### Corrosion Pulse
+**MP:** 48  
+**Japanese:** 腐蝕波  
 Emits a wave of biochemical activity that accelerates rust, decay, and tissue breakdown across a broad area.
 
 ### Succession Bloom
+**MP:** 72  
+**Japanese:** 継承開花  
+**Ultimate:** true  
 Rapidly establishes a replacement ecosystem in chemically prepared ground.
+
+## Recoverable materials
+
+| Material | Chance | Note |
+|---|---:|---|
+| Corrosive Sap | 32% | |
+| Spore Capsule | 24% | |
+| Thorn Vine | 16% | |
+| Succession Moss | 10% | |
+| Bloom Heart | 2% | Rare |
 
 ## Guild advisory
 

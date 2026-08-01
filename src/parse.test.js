@@ -203,7 +203,9 @@ describe("parseEntry", () => {
     expect(e.threatAxes.find((a) => a.axis === "Cascade")?.rating).toBe(5);
     expect(e.abilities).toBeTruthy();
     expect(e.abilities.length).toBeGreaterThanOrEqual(1);
-    expect(e.scale).toBeNull();
+    expect(e.scale).toBeTruthy();
+    expect(e.combatProfile).toBeTruthy();
+    expect(e.resistances).toHaveLength(9);
     expect(e.bodyMarkdown).not.toMatch(/Threat assessment/i);
     expect(e.bodyMarkdown).not.toMatch(/Field guidance/i);
     expect(e.identificationExcerpt).toMatch(/Venomvine/);
@@ -215,10 +217,32 @@ describe("parseEntry", () => {
     expect(e.japaneseName).toBe("グラヴォラックス");
     expect(e.abilities).toHaveLength(4);
     expect(e.abilities[0].name).toBe("Earthbreak Stomp");
+    expect(e.abilities[0].mp).toBe(42);
+    expect(e.abilities[3].ultimate).toBe(true);
     expect(e.scale["estimated length"]).toBe("138 m");
     expect(e.scale["estimated mass"]).toBe("112,000 t");
     expect(e.lengthMeters).toBe(138);
+    expect(e.resistances).toHaveLength(9);
+    expect(e.combatProfile?.hp).toBe(420000);
+    expect(e.drops?.length).toBeGreaterThanOrEqual(4);
+    expect(e.accent).toBe("mineral");
+    expect(e.huntRank).toBe("S");
     expect(e.bodyMarkdown).not.toMatch(/Recorded abilities/i);
     expect(e.bodyMarkdown).not.toMatch(/## Scale/i);
+  });
+
+  it("parses Bloomwraith hunt UI fields", () => {
+    const raw = readFileSync(join(bestiaryDir, "045-bloomwraith.md"), "utf8");
+    const e = parseEntry("045-bloomwraith.md", raw);
+    expect(e.accent).toBe("toxic");
+    expect(e.sealKanji).toBe("幽蘭");
+    expect(e.hazard?.label).toBe("MAX");
+    expect(e.combatProfile?.level).toBe(45);
+    expect(e.abilities).toHaveLength(4);
+    expect(e.abilities[3].ultimate).toBe(true);
+    expect(e.drops).toHaveLength(5);
+    expect(e.lengthMeters).toBe(32.5);
+    expect(e.bodyMarkdown).not.toMatch(/Combat profile/i);
+    expect(e.bodyMarkdown).not.toMatch(/Resistances/i);
   });
 });

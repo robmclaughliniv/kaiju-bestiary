@@ -5,6 +5,7 @@ import { sealFor, originHue } from "./lore.js";
 export default function Seal({ name, number, origin, size = 96 }) {
   const rings = sealFor(name, number);
   const hue = originHue(origin);
+  const sealLight = Math.round(38 + ((hue % 360) / 360) * 24);
   return (
     <svg
       viewBox="0 0 100 100"
@@ -12,7 +13,7 @@ export default function Seal({ name, number, origin, size = 96 }) {
       height={size}
       className="seal"
       aria-hidden="true"
-      style={{ "--seal-hue": hue }}
+      style={{ "--seal-light": sealLight }}
     >
       <circle cx="50" cy="50" r="46" className="seal-rim" />
       <circle cx="50" cy="50" r="40" className="seal-rim seal-rim--inner" />

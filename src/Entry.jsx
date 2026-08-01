@@ -2,33 +2,15 @@ import { useEffect, useState } from "react";
 import { imageFor } from "./lore.js";
 import { fetchBestiaryEntry, parseBestiaryDetail } from "./bestiary-api.js";
 import Markdown from "./Markdown.jsx";
-import Seal from "./Seal.jsx";
-import ThreatPanel from "./ThreatPanel.jsx";
-import AbilityList from "./AbilityList.jsx";
 import ScalePanel from "./ScalePanel.jsx";
-
-function IdentityTable({ entry }) {
-  const rows = [
-    ["Origin", entry.origin],
-    ["Disposition", entry.disposition],
-    ["Range", entry.habitat],
-    ["First record", entry.firstRecord],
-    ["Canon status", entry.status],
-  ].filter(([, v]) => v);
-
-  if (rows.length === 0) return null;
-
-  return (
-    <dl className="hud-identity-table">
-      {rows.map(([label, value]) => (
-        <div key={label}>
-          <dt>{label}</dt>
-          <dd>{value}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
+import DossierHeader from "./dossier/DossierHeader.jsx";
+import HeroArt from "./dossier/HeroArt.jsx";
+import ProfilePanel from "./dossier/ProfilePanel.jsx";
+import ResistancesPanel from "./dossier/ResistancesPanel.jsx";
+import StatusPanel from "./dossier/StatusPanel.jsx";
+import SkillsPanel from "./dossier/SkillsPanel.jsx";
+import DropsPanel from "./dossier/DropsPanel.jsx";
+import DossierFooter from "./dossier/DossierFooter.jsx";
 
 function EntryDossier({ entry, entries }) {
   const img = imageFor(entry.number);
@@ -37,9 +19,10 @@ function EntryDossier({ entry, entries }) {
   const prev = entries[idx - 1];
   const next = entries[idx + 1];
   const num = String(entry.number).padStart(3, "0");
+  const [dossierOpen, setDossierOpen] = useState(false);
 
   return (
-    <article className="entry entry--dossier">
+    <article className="entry entry--dossier" data-accent={entry.accent || "default"}>
       <div className="entry-nav">
         <a href="#/">← Archive index</a>
         <span>
@@ -48,24 +31,7 @@ function EntryDossier({ entry, entries }) {
         </span>
       </div>
 
-      <header className="dossier-identity">
-        <div className="dossier-identity-text">
-          <p className="dossier-kicker">Kaiju Bestiary No.{num}</p>
-          <h1 className="dossier-name">{entry.name}</h1>
-          {entry.japaneseName && (
-            <p className="dossier-jp" lang="ja">
-              {entry.japaneseName}
-            </p>
-          )}
-          {entry.epithet && <p className="dossier-class">“{entry.epithet}”</p>}
-        </div>
-        {entry.threat && (
-          <div className="dossier-stamp" aria-label={`Threat: ${entry.threat}`}>
-            <span className="dossier-stamp-label">Classification</span>
-            <span className="dossier-stamp-value">{entry.threat}</span>
-          </div>
-        )}
-      </header>
+      <DossierHeader entry={entry} num={num} />
 
       {siblings.length > 0 && (
         <aside className="entry-parallel">
@@ -81,44 +47,41 @@ function EntryDossier({ entry, entries }) {
         </aside>
       )}
 
-      <div className="dossier-hud">
-        <div className="dossier-hud-col dossier-hud-col--meta">
-          <section className="hud-panel hud-meta">
-            <h2 className="hud-panel-title">Identity</h2>
-            <IdentityTable entry={entry} />
-          </section>
-
-          {entry.identificationExcerpt && (
-            <section className="hud-panel hud-flavor">
-              <h2 className="hud-panel-title">Identification</h2>
-              <p className="hud-flavor-text">{entry.identificationExcerpt}</p>
-            </section>
-          )}
-
-          <ThreatPanel axes={entry.threatAxes} />
+      <div className="hunt-sheet">
+        <div className="hunt-sheet-top">
+          <ProfilePanel entry={entry} />
+          <HeroArt entry={entry} img={img} />
         </div>
 
-        <div className="dossier-hud-col dossier-hud-col--art">
-          <figure className="dossier-art">
-            {img ? (
-              <img src={img} alt={entry.name} />
-            ) : (
-              <div className="dossier-art-fallback">
-                <Seal name={entry.name} number={entry.number} origin={entry.origin} size={280} />
-              </div>
-            )}
-          </figure>
+        <div className="hunt-sheet-mid">
+          <ResistancesPanel resistances={entry.resistances} />
+          <StatusPanel combatProfile={entry.combatProfile} threatAxes={entry.threatAxes} />
         </div>
-      </div>
 
-      <div className="dossier-tactical">
-        <AbilityList abilities={entry.abilities} />
-        <ScalePanel scale={entry.scale} lengthMeters={entry.lengthMeters} />
+        <div className="hunt-sheet-bottom">
+          <SkillsPanel abilities={entry.abilities} />
+          <DropsPanel drops={entry.drops} />
+          <ScalePanel scale={entry.scale} lengthMeters={entry.lengthMeters} className="hunt-scale" />
+        </div>
+
+        <DossierFooter entry={entry} />
       </div>
 
       {entry.bodyMarkdown && (
-        <div className="entry-dossier">
-          <Markdown source={entry.bodyMarkdown} />
+        <div className="hunt-dossier-drawer">
+          <button
+            type="button"
+            className="hunt-dossier-toggle"
+            aria-expanded={dossierOpen}
+            onClick={() => setDossierOpen((o) => !o)}
+          >
+            {dossierOpen ? "Hide full dossier" : "Open full dossier"}
+          </button>
+          {dossierOpen && (
+            <div className="entry-dossier">
+              <Markdown source={entry.bodyMarkdown} />
+            </div>
+          )}
         </div>
       )}
     </article>

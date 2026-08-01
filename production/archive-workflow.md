@@ -59,6 +59,7 @@ New regional Working entries should start from `bestiary/entry-template.md` unle
 4. Fill threat data using both systems when applicable:
    - operational class + six axes → `systems/threat-system.md`
    - origin / disposition / threat index labels → `systems/classification.md`
+   - optional hunt UI layer → `systems/guild-hunt-ui.md` (combat profile, resistances, drops; does not replace six-axis threat)
 5. Link at least two existing canon connections (region, organism, Guild branch, or timeline event).
 6. If the organism touches the Mourning Reach, update at least two relationships in `ecology/mourning-reach-web.md`.
 7. Record cross-cutting decisions or collisions in `canon/continuity-ledger.md`.

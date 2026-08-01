@@ -5,6 +5,8 @@ import Codex from "./Codex.jsx";
 import Create from "./Create.jsx";
 import Workshop from "./Workshop.jsx";
 import WorkshopEntry from "./WorkshopEntry.jsx";
+import ThemeToggle from "./components/ThemeToggle.jsx";
+import { useTheme } from "./hooks/useTheme.js";
 import { useBestiary } from "./useBestiary.js";
 import { TOTAL_SLOTS } from "./lore.js";
 
@@ -48,6 +50,7 @@ export default function App() {
   const route = useHashRoute();
   const [page, param] = route;
   const { entries, slots, loading, error, recordedCount } = useBestiary();
+  const { mode, cycleMode } = useTheme();
 
   let view;
   if (page === "entry" && param) {
@@ -95,6 +98,7 @@ export default function App() {
           <a href="#/codex" className={codexActive ? "active" : ""}>
             Codex
           </a>
+          <ThemeToggle mode={mode} onCycle={cycleMode} />
           <ArchiveStatus loading={loading} error={error} recordedCount={recordedCount} />
         </nav>
       </header>

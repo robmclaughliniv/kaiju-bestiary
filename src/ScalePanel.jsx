@@ -1,6 +1,6 @@
 const HUMAN_HEIGHT = 1.8;
 
-export default function ScalePanel({ scale, lengthMeters }) {
+export default function ScalePanel({ scale, lengthMeters, className = "" }) {
   if (!scale && !lengthMeters) return null;
 
   const maxHeight = lengthMeters ? Math.ceil(lengthMeters / 10) * 10 : 100;
@@ -8,8 +8,8 @@ export default function ScalePanel({ scale, lengthMeters }) {
   const humanPct = Math.min(100, (HUMAN_HEIGHT / maxHeight) * 100);
 
   return (
-    <section className="hud-panel hud-scale" aria-label="Scale comparison">
-      <h2 className="hud-panel-title">Scale</h2>
+    <section className={`hud-panel hud-scale hunt-panel ${className}`.trim()} aria-label="Scale comparison">
+      <h2 className="hud-panel-title hunt-panel-title">Scale</h2>
       {scale && (
         <dl className="scale-stats">
           {scale["estimated length"] && (

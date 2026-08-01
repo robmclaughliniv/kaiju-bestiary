@@ -3,7 +3,18 @@
 **Guild epithet:** The Cathedral Below  
 **Japanese display name:** タラシオン  
 **Field designation:** 086-A  
-**Canon status:** Established
+**Canon status:** Established  
+**Attribute:** Abyssal / Colonial  
+**Accent:** aquatic  
+**Japanese epithet:** 海堂怪獣  
+**Seal kanji:** 海堂  
+**Calligraphy:** 潮鐘鳴動  
+**Hazard:** 5  
+**Hunt rank:** S  
+**Documented hunts:** 4  
+**Expedition value:** 120000  
+**Bounty:** 200000  
+**Rarity:** 5  
 
 ## Classification
 
@@ -36,22 +47,70 @@ The organism supports a dense colonial ecosystem. Some inhabitants appear symbio
 
 After prolonged stillness, Thalassion descends gradually. In rare cases it submerges without warning, producing violent currents and mass marine mortality.
 
+## Resistances
+
+| Type | Modifier |
+|---|---|
+| Slash | Resist |
+| Pierce | Resist |
+| Blunt | Neutral |
+| Fire | Strong |
+| Ice | Resist |
+| Lightning | Weak |
+| Poison | Neutral |
+| Light | Neutral |
+| Dark | Absorb |
+
+## Combat profile
+
+**Level:** 99  
+**HP:** 980000  
+**MP:** 320  
+**Attack:** 720  
+**Defense:** 840  
+**Magic attack:** 680  
+**Magic defense:** 790  
+**Agility:** 85  
+**Accuracy:** 310  
+**Evasion:** 140  
+
 ## Recorded abilities
 
 ### False Shore
+**MP:** 18  
+**Japanese:** 偽岸  
 Creates the appearance of stable land by remaining motionless and altering local currents, fog, and wave behavior.
 
 ### Bells of the Deep
+**MP:** 32  
+**Japanese:** 深鐘  
 Produces low-frequency resonance perceived as distant bells. The sound interferes with navigation, sleep, and temporal judgment.
 
 ### Gradual Submergence
+**MP:** 24  
+**Japanese:** 漸沈  
 Descends with deceptive slowness, causing structures and landing parties to misjudge the remaining time.
 
 ### Cathedral Host
+**MP:** 40  
+**Japanese:** 聖堂共生  
 Supports numerous organisms within and upon its dorsal architecture. The total colony may be essential to Thalassion's survival.
 
 ### Returning Current
+**MP:** 64  
+**Japanese:** 回帰潮流  
+**Ultimate:** true  
 Generates powerful currents capable of pulling ships, debris, and marine life toward its migration path.
+
+## Recoverable materials
+
+| Material | Chance | Note |
+|---|---:|---|
+| Abyssal Shell | 30% | |
+| Cathedral Stone | 20% | |
+| Tidal Bell Resonance | 12% | |
+| Colonial Tissue | 8% | |
+| Deep Eye Lens | 1% | Rare |
 
 ## Guild advisory
 
