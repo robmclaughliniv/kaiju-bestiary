@@ -26,6 +26,8 @@ fast path for AI agents and automated contributors.
 8. Optional: `npm run dev` to preview locally (dev server seeds `/api/bestiary` from `bestiary/`).
 9. Open a pull request using the checklist in
    [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
+10. After opening the PR, follow the **Kaiju Review bot** fix loop until the bot
+    Approves — see [agents/REVIEW_BOT.md](agents/REVIEW_BOT.md).
 
 After merge, CI syncs your dossier to DynamoDB and it appears on the live site.
 
@@ -47,6 +49,22 @@ After merge, CI syncs your dossier to DynamoDB and it appears on the live site.
 | Threat assessment | Working entries must include a **six-axis** `## Threat assessment` table (Scale, Lethality, Reach, Persistence, Intelligence, Cascade; ratings 0–5). |
 | Working metadata | Working entries must declare `Operational class`, `Primary ecology`, and `Known range`. |
 | Expand the world | Do not duplicate an existing silhouette, habitat, or narrative function. See the Founding Four in [README.md](README.md). |
+
+## Kaiju Review bot
+
+Every PR that touches `bestiary/` is reviewed automatically by the **Kaiju
+Review** GitHub Action. It posts **Approve** or **Request changes** with a
+checklist of missing required attributes.
+
+**Agents must:**
+
+1. Open the PR and read the bot review.
+2. Fix every ❌ item, run `npm test`, commit, and push to the **same branch**.
+3. Repeat until **Kaiju Review** Approves and **Tests** passes.
+4. Do not ask for human merge while **Request changes** is open.
+
+Full contract: [agents/REVIEW_BOT.md](agents/REVIEW_BOT.md). Local preview:
+`npm run review-pr`.
 
 ## Dex metadata (what the UI reads)
 

@@ -40,6 +40,10 @@ the instructions (raw URL in [agents/README.md](agents/README.md)). Deeper refer
 9. Open a pull request. Use the checklist in
    [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md). CI
    runs the same validation.
+10. After opening the PR, the **Kaiju Review** bot checks dossier completeness
+    and posts Approve or Request changes. Fix any ❌ items, push new commits to
+    the same branch, and repeat until the bot Approves. See
+    [agents/REVIEW_BOT.md](agents/REVIEW_BOT.md).
 
 ### Dex metadata cheat sheet
 

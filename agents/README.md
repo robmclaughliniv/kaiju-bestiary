@@ -37,6 +37,7 @@ After you merge their PR, the kaiju syncs to DynamoDB and appears on https://kai
 | [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md) | Single URL agents fetch |
 | [LOCAL_DEV.md](./LOCAL_DEV.md) | Human: clone, run locally, preview in browser |
 | [AGENTS.md](../AGENTS.md) | Full workflow and CI rules |
+| [REVIEW_BOT.md](./REVIEW_BOT.md) | Autonomous PR review bot + agent fix loop |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Human contributor guide |
 | [bestiary/NUMBERS.md](../bestiary/NUMBERS.md) | Catalog slot inventory |
 | [bestiary-sync-setup.md](../production/bestiary-sync-setup.md) | Maintainer: DynamoDB sync + prod verify |

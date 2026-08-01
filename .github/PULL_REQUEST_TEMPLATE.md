@@ -6,6 +6,10 @@
 
 <!-- Delete sections that do not apply. For non-bestiary PRs, describe changes below. -->
 
+The **Kaiju Review** bot enforces this checklist on every PR that touches
+`bestiary/`. If it requests changes, push fixes to this same branch until it
+Approves. See [agents/REVIEW_BOT.md](../agents/REVIEW_BOT.md).
+
 - [ ] Catalog number is **unused** (see [bestiary/NUMBERS.md](../bestiary/NUMBERS.md))
 - [ ] Not using Founding Four numbers 001 / 045 / 086 / 087 for a new creature
 - [ ] File created from [bestiary/entry-template.md](../bestiary/entry-template.md)

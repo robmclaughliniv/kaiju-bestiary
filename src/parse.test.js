@@ -5,63 +5,23 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { parseEntry, parseMeta, parseThreatAxes } from "./parse.js";
+import { parseEntry, parseMeta } from "./parse.js";
+import {
+  FOUNDING_FOUR_ALLOWED,
+  REQUIRED_THREAT_AXES,
+  WORKING_META_KEYS,
+  countCanonConnectionItems,
+  isWorkingCanon,
+  parseNumbersInventory,
+  validateDossier,
+} from "./bestiaryRules.js";
+import { parseThreatAxes } from "./parse.js";
 
 const bestiaryDir = join(__dirname, "..", "bestiary");
 const numbersPath = join(bestiaryDir, "NUMBERS.md");
 const files = readdirSync(bestiaryDir).filter(
   (f) => f.endsWith(".md") && /^\d{3}-/.test(f)
 );
-
-const REQUIRED_THREAT_AXES = [
-  "Scale",
-  "Lethality",
-  "Reach",
-  "Persistence",
-  "Intelligence",
-  "Cascade",
-];
-
-const WORKING_META_KEYS = ["operational class", "primary ecology", "known range"];
-
-// Founding Four numbers (C-006) plus known C-007 parallel records only.
-const FOUNDING_FOUR_ALLOWED = {
-  1: ["001-gravorax.md"],
-  45: ["045-vespera.md", "045-bloomwraith.md"],
-  86: ["086-thalassion.md", "086-venomvine.md"],
-  87: ["087-okisendra.md", "087-orchidia.md"],
-};
-
-function countCanonConnectionItems(markdown) {
-  const parts = markdown.split(/^## /m);
-  for (const part of parts) {
-    if (!/^Canon connections\s/i.test(part)) continue;
-    const section = part.split("\n").slice(1).join("\n").trim();
-    if (!section) return 0;
-    const bullets = section.match(/^[-*]\s+.+/gm) || [];
-    const paragraphs = section
-      .split(/\n\n+/)
-      .map((p) => p.trim())
-      .filter((p) => p && !/^[-*]\s/.test(p));
-    return bullets.length + paragraphs.length;
-  }
-  return 0;
-}
-
-function parseNumbersInventory(markdown) {
-  const parts = markdown.split(/^## All recorded slots\s/mi);
-  if (parts.length < 2) return [];
-  const section = parts[1].split(/^## /m)[0];
-  const inventory = [];
-  for (const match of section.matchAll(/`(\d{3}-[^`]+\.md)`/g)) {
-    inventory.push(match[1]);
-  }
-  return inventory;
-}
-
-function isWorkingCanon(status) {
-  return status?.toLowerCase().includes("working");
-}
 
 describe("NUMBERS.md inventory", () => {
   const numbersRaw = readFileSync(numbersPath, "utf8");
@@ -95,6 +55,7 @@ describe("bestiary archive", () => {
     describe(file, () => {
       const raw = readFileSync(join(bestiaryDir, file), "utf8");
       const entry = parseEntry(file, raw);
+      const validation = validateDossier(file, raw, { isNew: false });
 
       it("has a dex number in its H1 (e.g. `# Bestiary No.042 — Name`)", () => {
         expect(entry.number).not.toBeNull();
@@ -167,6 +128,14 @@ describe("bestiary archive", () => {
             `Working entries need \`**${key.charAt(0).toUpperCase() + key.slice(1)}:**\` — see entry-template.md`
           ).toBeTruthy();
         }
+      });
+
+      it("passes shared dossier validation (no template placeholders on established entries)", () => {
+        if (!isWorkingCanon(entry.status)) return;
+        const placeholderErrors = validation.errors.filter((e) =>
+          /placeholder|TBD|Guild Name|No\.XXX|lorem ipsum/i.test(e)
+        );
+        expect(placeholderErrors, placeholderErrors.join("; ")).toHaveLength(0);
       });
     });
   }

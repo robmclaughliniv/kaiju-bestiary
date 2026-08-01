@@ -70,6 +70,19 @@ npm test
 
 Fix any failures before your agent (or you) pushes and opens a pull request.
 
+Preview what the **Kaiju Review** bot will check on your branch:
+
+```bash
+npm run review-pr
+```
+
+## After opening a PR
+
+The **Kaiju Review** GitHub Action reviews changed dossiers and posts Approve
+or Request changes. If it requests changes, fix every ❌ item, run `npm test`,
+commit, and push to the **same branch** — do not open a new PR. Repeat until
+Kaiju Review Approves. See [REVIEW_BOT.md](./REVIEW_BOT.md).
+
 ## What local dev is and isn’t
 
 | Local dev | Production |
@@ -118,4 +131,5 @@ In the terminal where `npm run dev` is running, press **Ctrl+C**.
 
 - Contribution rules: [CONTRIBUTING.md](../CONTRIBUTING.md)
 - Agent / PR workflow: [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md)
+- Kaiju Review bot: [REVIEW_BOT.md](./REVIEW_BOT.md)
 - Catalog numbers: [bestiary/NUMBERS.md](../bestiary/NUMBERS.md)

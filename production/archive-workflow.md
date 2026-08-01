@@ -83,6 +83,18 @@ New regional Working entries should start from `bestiary/entry-template.md` unle
 - **Artwork text:** Illegible or generated dates/names are not automatically canon (`canon/timeline.md` dating rule).
 - **Silhouette repetition:** Phase One asks new entries to expand categories, not clone an existing body plan or narrative function (`README.md`).
 
+## Pull request automation
+
+Two GitHub Actions checks gate contributions:
+
+| Check | Workflow | Role |
+|---|---|---|
+| **Tests** | `.github/workflows/test.yml` | Full-archive `npm test` + build |
+| **Kaiju Review** | `.github/workflows/kaiju-review.yml` | Dossier completeness on changed files; posts Approve / Request changes |
+
+Configure branch protection on `main` to require both checks. Agent contract:
+`agents/REVIEW_BOT.md`.
+
 ## Definition of done
 
 Use the checklist in `production/roadmap.md`. At minimum, a finished creature needs distinct silhouette, biological logic or intentional mystery, ecological role, human consequences, threat assessment, field guidance, two canon connections, art brief, and recorded unresolved contradictions.

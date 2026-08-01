@@ -1,0 +1,71 @@
+# Validates bestiary dossiers on pull requests, posts Approve or Request
+# changes reviews, and fails the check when required kaiju attributes are missing.
+
+name: Kaiju Review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Kaiju review
+        id: review
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/review-pr.mjs \
+            --pr "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --report-md review-report.md \
+            --report-json review-report.json
+
+      - name: Post PR review
+        if: always() && steps.review.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ ! -f review-report.json ]; then
+            echo "No review report — skipping PR review comment."
+            exit 0
+          fi
+
+          OK="$(jq -r '.ok' review-report.json)"
+          if [ "$OK" = "true" ]; then
+            EVENT="APPROVE"
+          else
+            EVENT="REQUEST_CHANGES"
+          fi
+
+          BODY="$(cat review-report.md)"
+          jq -n \
+            --arg event "$EVENT" \
+            --arg body "$BODY" \
+            '{event: $event, body: $body}' > review-payload.json
+
+          gh api \
+            --method POST \
+            "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            --input review-payload.json
+
+      - name: Fail when dossier requirements are unmet
+        if: steps.review.outcome == 'failure'
+        run: |
+          echo "Kaiju Review found required fixes — see the PR review for details."
+          exit 1

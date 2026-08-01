@@ -122,6 +122,8 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
 9. Run `npm install && npm test`. Fix all failures before opening a PR.
 10. Optional: `npm run dev` and browse `#/` to preview locally.
 11. Push your branch and open **one pull request per creature** (see **Fork → PR sequence** above). Use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
+12. **After the PR is open:** read the **Kaiju Review** bot review on GitHub. If it requests changes, fix every ❌ item, run `npm test`, commit, and push to the **same branch**. Do not open a new PR. Repeat until Kaiju Review **Approves** and the **Tests** check passes. See [REVIEW_BOT.md](./REVIEW_BOT.md).
+13. Do not ask the human operator to merge while Kaiju Review still shows **Request changes**.
 
 ## Hard constraints (CI enforced — PR will fail if violated)
 
@@ -158,7 +160,20 @@ Before requesting review:
 
 ## What happens after merge
 
-The maintainer reviews your PR. On merge, CI syncs your markdown to DynamoDB and the live Dex at https://kaiju-bestiary.robmclaughl.in shows your kaiju. No further action needed from you.
+The maintainer may do a final read of your PR. On merge, CI syncs your markdown
+to DynamoDB and the live Dex at https://kaiju-bestiary.robmclaughl.in shows
+your kaiju.
+
+## Before merge — Kaiju Review bot
+
+While your PR is open, the **Kaiju Review** GitHub Action reviews dossier
+changes automatically. If it requests changes:
+
+1. Read the review comment on the PR.
+2. Fix every required item, run `npm test`, commit, push to the same branch.
+3. Wait for Kaiju Review to re-run and Approve.
+
+Details: [REVIEW_BOT.md](./REVIEW_BOT.md). Local preview: `npm run review-pr`.
 
 ---
 
