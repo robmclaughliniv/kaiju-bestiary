@@ -112,6 +112,10 @@ Drop an image at `art/images/NNN-anything.png` (or `.jpg`/`.webp`/`.gif`). The
 site auto-wires it for that catalog number. See
 [art/images/README.md](art/images/README.md) and [art/art-bible.md](art/art-bible.md).
 
+**OpenClaw / external agents:** generate hero art via the operator's preferred
+image API using the prompt template in
+[agents/OPENCLAW_STARTER_PROMPT.md](agents/OPENCLAW_STARTER_PROMPT.md#generate-hero-artwork-image-api).
+
 ## Definition of done (PR checklist)
 
 Before submitting:

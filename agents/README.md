@@ -34,7 +34,7 @@ After you merge their PR, the kaiju syncs to DynamoDB and appears on https://kai
 
 | Doc | Purpose |
 |-----|---------|
-| [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md) | Single URL agents fetch |
+| [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md) | Single URL agents fetch; includes image-API hero art workflow |
 | [LOCAL_DEV.md](./LOCAL_DEV.md) | Human: clone, run locally, preview in browser |
 | [AGENTS.md](../AGENTS.md) | Full workflow and CI rules |
 | [REVIEW_BOT.md](./REVIEW_BOT.md) | Autonomous PR review bot + agent fix loop |

@@ -60,7 +60,7 @@ npm install
 npm test
 
 # 6. Commit and push to YOUR fork
-git add bestiary/   # includes bestiary/NUMBERS.md; add ecology/ canon/ if touched
+git add bestiary/ art/images/   # includes bestiary/NUMBERS.md; add ecology/ canon/ if touched
 git commit -m "Add Bestiary No.112 — Cindermaw"
 git push -u origin bestiary/112-cindermaw
 
@@ -119,11 +119,12 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
    - Other sections as appropriate (Scale, Recorded abilities, Field guidance)
 7. Update `bestiary/NUMBERS.md` with your new entry.
 8. If the creature touches Mourning Reach, update `ecology/mourning-reach-web.md` and `canon/continuity-ledger.md`.
-9. Run `npm install && npm test`. Fix all failures before opening a PR.
-10. Optional: `npm run dev` and browse `#/` to preview locally.
-11. Push your branch and open **one pull request per creature** (see **Fork → PR sequence** above). Use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
-12. **After the PR is open:** read the **Kaiju Review** bot review on GitHub. If it requests changes, fix every ❌ item, run `npm test`, commit, and push to the **same branch**. Do not open a new PR. Repeat until Kaiju Review **Approves** and the **Tests** check passes. See [REVIEW_BOT.md](./REVIEW_BOT.md).
-13. Do not ask the human operator to merge while Kaiju Review still shows **Request changes**.
+9. **Generate hero artwork** when an image API is available (see **Generate hero artwork (image API)** below). Include the image in the PR.
+10. Run `npm install && npm test`. Fix all failures before opening a PR.
+11. Optional: `npm run dev` and browse `#/` to preview locally — confirm the dex card and entry page show your image (not the guild seal).
+12. Push your branch and open **one pull request per creature** (see **Fork → PR sequence** above). Use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
+13. **After the PR is open:** read the **Kaiju Review** bot review on GitHub. If it requests changes, fix every ❌ item, run `npm test`, commit, and push to the **same branch**. Do not open a new PR. Repeat until Kaiju Review **Approves** and the **Tests** check passes. See [REVIEW_BOT.md](./REVIEW_BOT.md).
+14. Do not ask the human operator to merge while Kaiju Review still shows **Request changes**.
 
 ## Hard constraints (CI enforced — PR will fail if violated)
 
@@ -138,13 +139,117 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
 | Canon connections | Working entries: ≥2 bullet items under `## Canon connections`. |
 | Expand the world | Distinct silhouette, habitat, and narrative function — not a clone of existing entries. |
 
+## Generate hero artwork (image API)
+
+Generate a hero illustration for every creature **when the human operator has
+image API access configured**. Art is optional for CI, but you should produce
+it whenever credentials are available. If no API is configured, ask the operator
+once; if they cannot provide access, skip art and note the omission in the PR
+body.
+
+Read [art/art-bible.md](../art/art-bible.md) and [art/images/README.md](../art/images/README.md)
+before generating.
+
+### 1. Credentials and preferred API
+
+Use **whatever image API the operator has configured** — there is no required
+vendor. Common setups (examples only):
+
+| Provider | Typical env var |
+|----------|-------------------|
+| OpenAI Images | `OPENAI_API_KEY` |
+| Replicate | `REPLICATE_API_TOKEN` |
+| fal.ai | `FAL_KEY` |
+| Stability AI | `STABILITY_API_KEY` |
+
+The operator may also expose a CLI, MCP tool, or local wrapper. Use that if
+present.
+
+**Never commit API keys, `.env` files, or API responses that embed secrets.**
+
+If no image API is available, continue with a dossier-only PR.
+
+### 2. Variable checklist
+
+After the dossier is written, collect these values from it:
+
+| Variable | Source in dossier |
+|----------|-------------------|
+| `{{NNN}}` | Catalog number (three digits, e.g. `112`) |
+| `{{Name}}` | Creature name from H1 |
+| `{{Silhouette}}` | Body plan and unmistakable outline from `## Identification` |
+| `{{Materials}}` | Surface textures, anatomy, chemistry from identification / scale |
+| `{{Ecology}}` | `Primary ecology`, habitat, `Known range` |
+| `{{Weather}}` | Light, atmosphere, season implied by habitat |
+| `{{ScaleCue}}` | Human structures, terrain damage, tracks, or observers |
+| `{{HazardVibe}}` | `Operational class`, `Hazard`, or threat tone |
+| `{{JapaneseName}}` | `Japanese display name` if present (accent only — not fake text) |
+
+If `{{JapaneseName}}` is absent, omit that line from the filled prompt.
+
+### 3. Starter prompt template
+
+Fill every `{{variable}}`, then pass the completed prompt to the image API:
+
+```
+Premium natural-history field illustration for a kaiju bestiary dex entry.
+
+Organism: {{Name}} (Bestiary No.{{NNN}}) — {{Ecology}}.
+Silhouette: {{Silhouette}} — unmistakable at a glance, ecologically functional, not decorative.
+Materials and anatomy: {{Materials}}.
+Environment: {{Ecology}} under {{Weather}}.
+Scale: {{ScaleCue}} — the creature's colossal size must read clearly.
+Threat tone: {{HazardVibe}}.
+{{JapaneseName}}
+
+Visual style: recovered Guild field archive — Japanese RPG bestiary presentation
+meets museum expedition illustration. Cinematic environmental scale. Beauty and
+horror coexist. Color communicates chemistry, habitat, or warning.
+
+Image function: single square hero illustration for a dex card and entry header.
+Roughly 1:1 composition. No UI chrome, borders, watermarks, or text overlays.
+
+Exclude: generic dragon or Godzilla clone, default humanoid anatomy unless the
+biology demands it, unreadable fake Japanese used as language, logos, signatures,
+stock fantasy wallpaper look.
+```
+
+### 4. Call the API and save the file
+
+1. Send the filled prompt to the operator's preferred image API.
+2. Request roughly **square (~1:1) output** at a web-reasonable resolution.
+3. Download the result and save it as:
+
+   ```
+   art/images/NNN-kebab-name-hero.png
+   ```
+
+   Example: `art/images/112-cindermaw-hero.png`
+
+   Accepted formats: `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif` (see
+   [art/images/README.md](../art/images/README.md)).
+
+4. The site auto-wires images by catalog number prefix — no dossier path or app
+   code changes are needed.
+
+### 5. Include the image in the PR
+
+```bash
+git add art/images/NNN-kebab-name-hero.png
+```
+
+- Stage the image alongside the dossier and `bestiary/NUMBERS.md`.
+- Check the art checkbox in `.github/PULL_REQUEST_TEMPLATE.md`.
+- Run `npm run dev`, open the entry page, and confirm the image appears instead
+  of the generated guild seal.
+
 ## Etiquette
 
 - One creature per PR. Do not batch unrelated dossiers.
 - Do not open draft spam or empty PRs.
 - If unsure about a niche or number, open a **Propose a kaiju** issue first (`.github/ISSUE_TEMPLATE/propose-kaiju.md`).
 - Read existing dossiers in `bestiary/` so you do not duplicate silhouettes or habitats.
-- Optional artwork: `art/images/NNN-anything.png` (see `art/images/README.md`).
+- Generate hero artwork via image API when credentials are available (see **Generate hero artwork (image API)** above).
 
 ## Definition of done
 
@@ -155,6 +260,7 @@ Before requesting review:
 - [ ] `**Canon status:** Working canon`
 - [ ] Six-axis threat table filled in
 - [ ] `## Canon connections` with ≥2 links to existing canon
+- [ ] Hero artwork generated and committed at `art/images/NNN-kebab-name-hero.png` when image API access is available (otherwise noted as skipped in PR body)
 - [ ] `npm test` passes
 - [ ] PR checklist completed
 

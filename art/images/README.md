@@ -30,3 +30,9 @@ work best (~1:1). Keep file sizes reasonable for web delivery.
 
 See [art-bible.md](../art-bible.md) for silhouette rules, palette, scale cues,
 and finished-spread requirements.
+
+## Agent generation
+
+OpenClaw and other external agents can generate hero images via the operator's
+preferred image API. Prompt template, variable checklist, and PR steps:
+[agents/OPENCLAW_STARTER_PROMPT.md](../../agents/OPENCLAW_STARTER_PROMPT.md#generate-hero-artwork-image-api).
