@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import Dex from "./Dex.jsx";
 import Entry from "./Entry.jsx";
 import Codex from "./Codex.jsx";
+import Create from "./Create.jsx";
+import Workshop from "./Workshop.jsx";
+import WorkshopEntry from "./WorkshopEntry.jsx";
 import { entries, recordedCount, TOTAL_SLOTS } from "./lore.js";
 
 function useHashRoute() {
@@ -28,9 +31,19 @@ export default function App() {
     view = entry ? <Entry entry={entry} /> : <Dex />;
   } else if (page === "codex") {
     view = <Codex docSlug={param} />;
+  } else if (page === "create") {
+    view = <Create />;
+  } else if (page === "workshop" && param) {
+    view = <WorkshopEntry id={param} />;
+  } else if (page === "workshop") {
+    view = <Workshop />;
   } else {
     view = <Dex />;
   }
+
+  const archiveActive = !page || page === "entry";
+  const codexActive = page === "codex";
+  const workshopActive = page === "workshop" || page === "create";
 
   return (
     <div className="shell">
@@ -47,10 +60,16 @@ export default function App() {
           </span>
         </a>
         <nav className="masthead-nav">
-          <a href="#/" className={!page || page === "entry" ? "active" : ""}>
+          <a href="#/" className={archiveActive ? "active" : ""}>
             Bestiary
           </a>
-          <a href="#/codex" className={page === "codex" ? "active" : ""}>
+          <a href="#/workshop" className={workshopActive ? "active" : ""}>
+            Workshop
+          </a>
+          <a href="#/create" className={page === "create" ? "active" : ""}>
+            Create
+          </a>
+          <a href="#/codex" className={codexActive ? "active" : ""}>
             Codex
           </a>
           <span className="masthead-count" title="Recorded dex numbers">
@@ -65,12 +84,14 @@ export default function App() {
           revised, contradicted, censored, or proven wrong.
         </p>
         <p>
+          <a href="#/create">File a workshop dossier</a>
+          {" · "}
           <a
             href="https://github.com/robmclaughliniv/kaiju-bestiary"
             target="_blank"
             rel="noreferrer"
           >
-            Contribute a dossier ↗
+            Contribute official canon ↗
           </a>
         </p>
       </footer>

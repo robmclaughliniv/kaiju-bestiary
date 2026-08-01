@@ -53,16 +53,16 @@ provider "aws" {
 }
 
 module "site" {
-  source = "git::https://github.com/robmclaughliniv/robmclaughl.in.git//terraform/modules/static-site?ref=static-site-v1.0.1"
+  source = "git::https://github.com/robmclaughliniv/robmclaughl.in.git//terraform/modules/static-site?ref=static-site-v1.0.2"
 
   app_name  = "kaiju-bestiary"
   subdomain = "kaiju-bestiary"
   repo      = "robmclaughliniv/kaiju-bestiary"
   spa_mode  = true
 
-  # API add-on. Set both to false for a purely static site.
-  enable_api      = false
-  enable_dynamodb = false
+  # API add-on for the community Workshop (create/list kaiju at runtime).
+  enable_api      = true
+  enable_dynamodb = true
 
   providers = {
     aws           = aws

@@ -7,6 +7,11 @@ web app generated straight from the markdown in this repository. Add a dossier
 in `bestiary/`, and it appears on the site. See [CONTRIBUTING.md](CONTRIBUTING.md).
 **For AI agents:** [AGENTS.md](AGENTS.md).
 
+**Community Workshop:** the site also has an in-app **Create** flow (`#/create`)
+that saves anonymous dossiers to a lightweight DynamoDB store via a same-origin
+`/api` Lambda. Workshop entries are separate from the numbered Guild archive;
+official canon still enters through GitHub pull requests.
+
 This repository is the canonical source of truth for **The Kaiju Bestiary** universe. It supports illustrated Guild dossiers, maps, expedition journals, fiction, RPG systems, a future website, and a premium art book.
 
 ## The premise
@@ -46,8 +51,29 @@ These entries define the initial creative range of the universe:
 - `working/` unresolved ideas and experiments
 - `src/`, `index.html` the archive website (Vite + React; see CONTRIBUTING.md)
 - `terraform/`, `scripts/`, `.github/` hosting and CI (S3 + CloudFront on robmclaughl.in)
+- `api/` optional Lambda handlers for the community Workshop (`/api/creations`)
 
 Contributor operations (formats, numbering constraints, pitfalls): `production/archive-workflow.md`.
+
+## Workshop API (runtime create)
+
+The numbered bestiary remains git-backed markdown. The **Workshop** is a separate
+gallery stored in DynamoDB at runtime.
+
+**Local dev:** `npm run dev` serves `/api/*` via an in-memory mock (no AWS needed).
+
+**Production bootstrap** (one-time, after enabling the API in Terraform):
+
+1. Tag and push `static-site-v1.0.2` in the shared `robmclaughl.in` module repo
+   (adds DynamoDB `Scan`/`DeleteItem` to the Lambda role).
+2. Run `scripts/bootstrap.sh` and confirm the plan (creates Lambda, HTTP API, DynamoDB).
+3. Push to `main` — `deploy-api.yml` ships `api/` code to Lambda when `api/**` changes.
+
+Endpoints:
+
+- `GET /api/creations` — list workshop entries
+- `POST /api/creations` — file a new dossier (anonymous, JSON body)
+- `GET /api/creations/:id` — fetch one entry
 
 ## Current phase
 

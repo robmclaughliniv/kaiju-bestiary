@@ -976,6 +976,152 @@ a:hover {
   margin: 2rem 0;
 }
 
+/* ── Workshop & Create ── */
+.workshop-intro,
+.create-intro {
+  margin-bottom: 2rem;
+  max-width: 42rem;
+}
+.workshop-kicker,
+.create-kicker {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  margin-bottom: 0.5rem;
+}
+.workshop-intro h1,
+.create-intro h1 {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+}
+.workshop-intro em,
+.create-intro em {
+  font-style: italic;
+  color: var(--phosphor);
+}
+.workshop-cta {
+  margin-top: 1rem;
+}
+.workshop-create-link {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.workshop-status,
+.workshop-error,
+.workshop-empty,
+.create-error,
+.create-success {
+  margin: 1rem 0 1.5rem;
+  color: var(--parchment-dim);
+}
+.workshop-error,
+.create-error {
+  color: var(--danger);
+}
+.card--workshop {
+  border-color: rgba(201, 162, 75, 0.35);
+}
+.card-workshop-tag,
+.tag--creator {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  margin-left: 0.45rem;
+}
+.entry-workshop-note {
+  border-left-color: var(--stamp);
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 52rem;
+}
+.create-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.create-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.create-field--wide {
+  grid-column: 1 / -1;
+}
+.create-field span,
+.create-threat legend {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stamp);
+}
+.create-field input,
+.create-field textarea,
+.create-threat-axis input {
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--parchment);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  padding: 0.65rem 0.75rem;
+  border-radius: 2px;
+}
+.create-field textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+.create-threat {
+  border: 1px solid var(--line-soft);
+  padding: 1rem;
+}
+.create-threat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.create-threat-axis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--parchment-dim);
+}
+.create-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+.create-actions button {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-0);
+  background: var(--stamp);
+  border: none;
+  padding: 0.75rem 1.1rem;
+  cursor: pointer;
+}
+.create-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* ── Colophon ── */
 .colophon {
   margin-top: 4rem;
@@ -1014,5 +1160,9 @@ a:hover {
   .codex {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+  .create-grid,
+  .create-threat-grid {
+    grid-template-columns: 1fr;
   }
 }
