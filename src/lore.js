@@ -33,7 +33,7 @@ const imageFiles = import.meta.glob("../art/images/*.{png,jpg,jpeg,webp,gif}", {
 
 function loadEntries() {
   return Object.entries(bestiaryFiles)
-    .filter(([path]) => !path.includes("template"))
+    .filter(([path]) => /\/\d{3}-/.test(path))
     .map(([path, raw]) => parseEntry(path, raw))
     .filter((e) => e.number !== null)
     .sort((a, b) => a.number - b.number || a.slug.localeCompare(b.slug));

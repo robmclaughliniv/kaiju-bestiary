@@ -9,8 +9,32 @@ import { parseEntry, parseMeta } from "./parse.js";
 
 const bestiaryDir = join(__dirname, "..", "bestiary");
 const files = readdirSync(bestiaryDir).filter(
-  (f) => f.endsWith(".md") && !f.includes("template")
+  (f) => f.endsWith(".md") && /^\d{3}-/.test(f)
 );
+
+// Founding Four numbers (C-006) plus known C-007 parallel records only.
+const FOUNDING_FOUR_ALLOWED = {
+  1: ["001-gravorax.md"],
+  45: ["045-vespera.md", "045-bloomwraith.md"],
+  86: ["086-thalassion.md", "086-venomvine.md"],
+  87: ["087-okisendra.md", "087-orchidia.md"],
+};
+
+function countCanonConnectionItems(markdown) {
+  const parts = markdown.split(/^## /m);
+  for (const part of parts) {
+    if (!/^Canon connections\s/i.test(part)) continue;
+    const section = part.split("\n").slice(1).join("\n").trim();
+    if (!section) return 0;
+    const bullets = section.match(/^[-*]\s+.+/gm) || [];
+    const paragraphs = section
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter((p) => p && !/^[-*]\s/.test(p));
+    return bullets.length + paragraphs.length;
+  }
+  return 0;
+}
 
 describe("bestiary archive", () => {
   it("contains at least the Founding Four", () => {
@@ -47,6 +71,25 @@ describe("bestiary archive", () => {
         expect(raw.length).toBeGreaterThan(400);
         expect(entry.excerpt).toBeTruthy();
       });
+
+      it("does not claim a Founding Four number without allowlist approval", () => {
+        const allowed = FOUNDING_FOUR_ALLOWED[entry.number];
+        if (!allowed) return;
+        const label = String(entry.number).padStart(3, "0");
+        expect(
+          allowed,
+          `${file} uses reserved catalog number ${label}. See bestiary/NUMBERS.md and canon/continuity-ledger.md (C-006, C-007).`
+        ).toContain(file);
+      });
+
+      it("includes Canon connections when Working canon", () => {
+        if (!entry.status?.toLowerCase().includes("working")) return;
+        const count = countCanonConnectionItems(raw);
+        expect(
+          count,
+          "Working entries need `## Canon connections` with at least two bullet items — see AGENTS.md"
+        ).toBeGreaterThanOrEqual(2);
+      });
     });
   }
 });
@@ -72,5 +115,32 @@ describe("parseEntry", () => {
     const e = parseEntry("045-x.md", "# Bestiary No.045 — Bloomwraith\n");
     expect(e.number).toBe(45);
     expect(e.name).toBe("Bloomwraith");
+  });
+
+  it("parses Venomvine Working dossier structured fields", () => {
+    const raw = readFileSync(join(bestiaryDir, "086-venomvine.md"), "utf8");
+    const e = parseEntry("086-venomvine.md", raw);
+    expect(e.threatAxes).toHaveLength(6);
+    expect(e.threatAxes[0]).toMatchObject({ axis: "Scale", rating: 4 });
+    expect(e.threatAxes.find((a) => a.axis === "Cascade")?.rating).toBe(5);
+    expect(e.abilities).toBeTruthy();
+    expect(e.abilities.length).toBeGreaterThanOrEqual(1);
+    expect(e.scale).toBeNull();
+    expect(e.bodyMarkdown).not.toMatch(/Threat assessment/i);
+    expect(e.bodyMarkdown).not.toMatch(/Field guidance/i);
+    expect(e.identificationExcerpt).toMatch(/Venomvine/);
+  });
+
+  it("parses Gravorax Established dossier structured fields", () => {
+    const raw = readFileSync(join(bestiaryDir, "001-gravorax.md"), "utf8");
+    const e = parseEntry("001-gravorax.md", raw);
+    expect(e.japaneseName).toBe("グラヴォラックス");
+    expect(e.abilities).toHaveLength(4);
+    expect(e.abilities[0].name).toBe("Earthbreak Stomp");
+    expect(e.scale["estimated length"]).toBe("138 m");
+    expect(e.scale["estimated mass"]).toBe("112,000 t");
+    expect(e.lengthMeters).toBe(138);
+    expect(e.bodyMarkdown).not.toMatch(/Recorded abilities/i);
+    expect(e.bodyMarkdown).not.toMatch(/## Scale/i);
   });
 });

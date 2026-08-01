@@ -1,6 +1,32 @@
 import { entries, imageFor } from "./lore.js";
 import Markdown from "./Markdown.jsx";
 import Seal from "./Seal.jsx";
+import ThreatPanel from "./ThreatPanel.jsx";
+import AbilityList from "./AbilityList.jsx";
+import ScalePanel from "./ScalePanel.jsx";
+
+function IdentityTable({ entry }) {
+  const rows = [
+    ["Origin", entry.origin],
+    ["Disposition", entry.disposition],
+    ["Range", entry.habitat],
+    ["First record", entry.firstRecord],
+    ["Canon status", entry.status],
+  ].filter(([, v]) => v);
+
+  if (rows.length === 0) return null;
+
+  return (
+    <dl className="hud-identity-table">
+      {rows.map(([label, value]) => (
+        <div key={label}>
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 export default function Entry({ entry }) {
   const img = imageFor(entry.number);
@@ -10,9 +36,10 @@ export default function Entry({ entry }) {
   const idx = entries.findIndex((e) => e.slug === entry.slug);
   const prev = entries[idx - 1];
   const next = entries[idx + 1];
+  const num = String(entry.number).padStart(3, "0");
 
   return (
-    <article className="entry">
+    <article className="entry entry--dossier">
       <div className="entry-nav">
         <a href="#/">← Archive index</a>
         <span>
@@ -21,63 +48,29 @@ export default function Entry({ entry }) {
         </span>
       </div>
 
-      <header className="entry-head">
-        <div className="entry-visual">
-          {img ? (
-            <img src={img} alt={entry.name} />
-          ) : (
-            <Seal name={entry.name} number={entry.number} origin={entry.origin} size={220} />
+      <header className="dossier-identity">
+        <div className="dossier-identity-text">
+          <p className="dossier-kicker">Kaiju Bestiary No.{num}</p>
+          <h1 className="dossier-name">{entry.name}</h1>
+          {entry.japaneseName && (
+            <p className="dossier-jp" lang="ja">
+              {entry.japaneseName}
+            </p>
           )}
+          {entry.epithet && <p className="dossier-class">“{entry.epithet}”</p>}
         </div>
-        <div className="entry-ident">
-          <div className="entry-number">Bestiary No.{String(entry.number).padStart(3, "0")}</div>
-          <h1>{entry.name}</h1>
-          {entry.epithet && <p className="entry-epithet">“{entry.epithet}”</p>}
-          <dl className="entry-facts">
-            {entry.origin && (
-              <div>
-                <dt>Origin</dt>
-                <dd>{entry.origin}</dd>
-              </div>
-            )}
-            {entry.disposition && (
-              <div>
-                <dt>Disposition</dt>
-                <dd>{entry.disposition}</dd>
-              </div>
-            )}
-            {entry.threat && (
-              <div>
-                <dt>Threat</dt>
-                <dd>{entry.threat}</dd>
-              </div>
-            )}
-            {entry.habitat && (
-              <div>
-                <dt>Range</dt>
-                <dd>{entry.habitat}</dd>
-              </div>
-            )}
-            {entry.firstRecord && (
-              <div>
-                <dt>First record</dt>
-                <dd>{entry.firstRecord}</dd>
-              </div>
-            )}
-            {entry.status && (
-              <div>
-                <dt>Canon status</dt>
-                <dd>{entry.status}</dd>
-              </div>
-            )}
-          </dl>
-        </div>
+        {entry.threat && (
+          <div className="dossier-stamp" aria-label={`Threat: ${entry.threat}`}>
+            <span className="dossier-stamp-label">Classification</span>
+            <span className="dossier-stamp-value">{entry.threat}</span>
+          </div>
+        )}
       </header>
 
       {siblings.length > 0 && (
         <aside className="entry-parallel">
-          <strong>Parallel records exist for No.{String(entry.number).padStart(3, "0")}.</strong>{" "}
-          The archive tracks contradictions rather than erasing them:{" "}
+          <strong>Parallel records exist for No.{num}.</strong> The archive tracks
+          contradictions rather than erasing them:{" "}
           {siblings.map((s, i) => (
             <span key={s.slug}>
               {i > 0 && ", "}
@@ -88,15 +81,46 @@ export default function Entry({ entry }) {
         </aside>
       )}
 
-      <div className="entry-dossier">
-        {/* Epithet and canon status already render in the header above. */}
-        <Markdown
-          source={entry.markdown.replace(
-            /^\*\*(Guild epithet|Canon status):\*\*.*$\n?/gm,
-            ""
+      <div className="dossier-hud">
+        <div className="dossier-hud-col dossier-hud-col--meta">
+          <section className="hud-panel hud-meta">
+            <h2 className="hud-panel-title">Identity</h2>
+            <IdentityTable entry={entry} />
+          </section>
+
+          {entry.identificationExcerpt && (
+            <section className="hud-panel hud-flavor">
+              <h2 className="hud-panel-title">Identification</h2>
+              <p className="hud-flavor-text">{entry.identificationExcerpt}</p>
+            </section>
           )}
-        />
+
+          <ThreatPanel axes={entry.threatAxes} />
+        </div>
+
+        <div className="dossier-hud-col dossier-hud-col--art">
+          <figure className="dossier-art">
+            {img ? (
+              <img src={img} alt={entry.name} />
+            ) : (
+              <div className="dossier-art-fallback">
+                <Seal name={entry.name} number={entry.number} origin={entry.origin} size={280} />
+              </div>
+            )}
+          </figure>
+        </div>
       </div>
+
+      <div className="dossier-tactical">
+        <AbilityList abilities={entry.abilities} />
+        <ScalePanel scale={entry.scale} lengthMeters={entry.lengthMeters} />
+      </div>
+
+      {entry.bodyMarkdown && (
+        <div className="entry-dossier">
+          <Markdown source={entry.bodyMarkdown} />
+        </div>
+      )}
     </article>
   );
 }

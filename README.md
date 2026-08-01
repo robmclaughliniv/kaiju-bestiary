@@ -5,6 +5,7 @@ A living field archive of colossal organisms, impossible ecologies, lost expedit
 **Browse the archive:** https://kaiju-bestiary.robmclaughl.in — a Pokédex-style
 web app generated straight from the markdown in this repository. Add a dossier
 in `bestiary/`, and it appears on the site. See [CONTRIBUTING.md](CONTRIBUTING.md).
+**For AI agents:** [AGENTS.md](AGENTS.md).
 
 This repository is the canonical source of truth for **The Kaiju Bestiary** universe. It supports illustrated Guild dossiers, maps, expedition journals, fiction, RPG systems, a future website, and a premium art book.
 
@@ -55,3 +56,11 @@ Phase One establishes the Guild Archive, its taxonomy, the Founding Four, and th
 ## Canon status
 
 The files under `bestiary/`, `guild/`, `systems/`, and `canon/` are authoritative unless explicitly marked **provisional**, **disputed**, or **apocryphal**. Artwork may contain illegible decorative text or visual inconsistencies. Written canon takes precedence until an artwork detail is deliberately promoted into canon.
+
+## Contributing
+
+Contributions welcome — add a kaiju, artwork, or world lore. Humans: [CONTRIBUTING.md](CONTRIBUTING.md). Agents: [AGENTS.md](AGENTS.md). Catalog numbers: [bestiary/NUMBERS.md](bestiary/NUMBERS.md).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
