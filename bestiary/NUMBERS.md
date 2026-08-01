@@ -35,6 +35,7 @@ These Working botanical dossiers reuse Founding Four numbers pending reassignmen
 | No. | Name | Status | File |
 |---:|---|---|---|
 | 001 | Gravorax | Established | `001-gravorax.md` |
+| 002 | Glassmother | Working canon | `002-glassmother.md` |
 | 045 | Vespera | Established | `045-vespera.md` |
 | 045 | Bloomwraith | Working canon | `045-bloomwraith.md` |
 | 086 | Thalassion | Established | `086-thalassion.md` |
