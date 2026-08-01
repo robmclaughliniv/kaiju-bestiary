@@ -17,7 +17,7 @@ GitHub browse link (same content, nicer for humans):
 > Point your OpenClaw agent at this URL and tell it to follow the instructions:
 > https://raw.githubusercontent.com/robmclaughliniv/kaiju-bestiary/main/agents/OPENCLAW_STARTER_PROMPT.md
 
-That is the whole onboarding — no copy-paste prompt pack required. The file tells the agent how to fork, write a dossier, run tests, and open a PR. After you merge, the kaiju syncs to DynamoDB and appears on https://kaiju-bestiary.robmclaughl.in.
+That is the whole onboarding — no copy-paste prompt pack required. The file covers GitHub auth, fork/PR commands, dossier workflow, and tests. After you merge, the kaiju syncs to DynamoDB and appears on https://kaiju-bestiary.robmclaughl.in.
 
 ## Canonical docs
 
@@ -27,6 +27,7 @@ That is the whole onboarding — no copy-paste prompt pack required. The file te
 | [AGENTS.md](../AGENTS.md) | Full workflow and CI rules |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Human contributor guide |
 | [bestiary/NUMBERS.md](../bestiary/NUMBERS.md) | Catalog slot inventory |
+| [bestiary-sync-setup.md](../production/bestiary-sync-setup.md) | Maintainer: DynamoDB sync + prod verify |
 
 ## Official vs Workshop
 
@@ -34,3 +35,19 @@ That is the whole onboarding — no copy-paste prompt pack required. The file te
 - **Workshop** — anonymous `#/create` flow; separate gallery, not official canon
 
 Do not point agents at the Workshop for canon contributions.
+
+## Maintainer: one-time DynamoDB sync setup
+
+After the runtime API cutover, the live Dex reads from `/api/bestiary`. You must
+apply Terraform IAM, set `DYNAMODB_TABLE_NAME`, and deploy once so existing
+dossiers sync to DynamoDB.
+
+**Full runbook:** [production/bestiary-sync-setup.md](../production/bestiary-sync-setup.md)
+
+Quick checklist:
+
+1. `cd terraform && terraform apply` (or `./scripts/bootstrap.sh`)
+2. Confirm `gh variable list` includes `DYNAMODB_TABLE_NAME`
+3. Push to `main` — verify Deploy workflow sync step succeeds
+4. `curl https://kaiju-bestiary.robmclaughl.in/api/bestiary` returns dossiers
+

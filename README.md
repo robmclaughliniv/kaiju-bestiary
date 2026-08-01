@@ -75,6 +75,10 @@ The **Workshop** is a separate gallery for anonymous in-app creations.
 2. Run `scripts/bootstrap.sh` and confirm the plan (creates Lambda, HTTP API, DynamoDB).
 3. Push to `main` — `deploy-api.yml` ships `api/` code to Lambda when `api/**` changes.
 
+**Bestiary sync on merge** (required for the live Dex after the runtime API cutover):
+see [production/bestiary-sync-setup.md](production/bestiary-sync-setup.md) for
+Terraform IAM, `DYNAMODB_TABLE_NAME`, deploy verification, and troubleshooting.
+
 Endpoints:
 
 - `GET /api/bestiary` — list official numbered dossiers (summaries)

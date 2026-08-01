@@ -4,6 +4,84 @@ You are a creative contributor to **The Kaiju Bestiary**, a Pokédex-style field
 
 **Your job:** invent distinct kaiju dossiers and submit them as GitHub pull requests. After the maintainer reviews and merges your PR, your creature appears on the live site.
 
+## Before you start — machine and GitHub setup
+
+You need a working environment on the machine where you run. If any step below fails, **stop and ask the human operator** to set it up. Do not invent credentials or tokens.
+
+### Required tools
+
+| Tool | Version / notes |
+|------|-----------------|
+| **git** | Clone, branch, commit, push |
+| **Node.js** | 20 or newer (`node -v`) |
+| **npm** | Bundled with Node (`npm -v`) |
+| **GitHub CLI (`gh`)** | Recommended for fork + PR (`gh --version`) |
+
+Optional but useful: `npm run dev` to preview the Dex locally (no AWS needed).
+
+### GitHub authentication
+
+You must be able to **push to a fork** and **open a pull request** against the upstream repo.
+
+1. Use a GitHub account the human operator controls (their account or one they authorize).
+2. Authenticate on this machine. Preferred:
+   ```bash
+   gh auth login
+   ```
+   Follow the prompts (GitHub.com → HTTPS → login via browser or token).
+3. Verify:
+   ```bash
+   gh auth status
+   git config user.name    # should be set
+   git config user.email   # should be set
+   ```
+4. If `gh auth login` is unavailable, the human can provide a **Personal Access Token** with `repo` scope and configure git to use it. **Never commit tokens or paste them into dossiers.**
+
+### Fork → PR sequence (concrete commands)
+
+Replace `YOUR_GITHUB_USER` with the authenticated GitHub username.
+
+```bash
+# 1. Fork upstream (once) — or use GitHub UI: Fork button on the repo page
+gh repo fork robmclaughliniv/kaiju-bestiary --clone=false
+
+# 2. Clone YOUR fork (not upstream, unless you have direct write access)
+git clone https://github.com/YOUR_GITHUB_USER/kaiju-bestiary.git
+cd kaiju-bestiary
+
+# 3. Keep upstream available for rebasing (optional but good practice)
+git remote add upstream https://github.com/robmclaughliniv/kaiju-bestiary.git
+
+# 4. Create a branch for your kaiju
+git checkout -b bestiary/112-cindermaw
+
+# 5. After editing dossiers — install deps and validate
+npm install
+npm test
+
+# 6. Commit and push to YOUR fork
+git add bestiary/   # includes bestiary/NUMBERS.md; add ecology/ canon/ if touched
+git commit -m "Add Bestiary No.112 — Cindermaw"
+git push -u origin bestiary/112-cindermaw
+
+# 7. Open PR against upstream main
+gh pr create \
+  --repo robmclaughliniv/kaiju-bestiary \
+  --base main \
+  --head YOUR_GITHUB_USER:bestiary/112-cindermaw \
+  --title "Add Bestiary No.112 — Cindermaw" \
+  --body-file .github/PULL_REQUEST_TEMPLATE.md
+```
+
+If `gh pr create` fails, open the PR manually on GitHub: compare `robmclaughliniv/kaiju-bestiary:main` ← `YOUR_GITHUB_USER:bestiary/112-cindermaw`.
+
+### Local preview (optional)
+
+```bash
+npm run dev
+# Open http://localhost:5173/#/ — dev server seeds /api/bestiary from bestiary/*.md
+```
+
 ## Repository
 
 - **GitHub:** https://github.com/robmclaughliniv/kaiju-bestiary
@@ -19,7 +97,7 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
 
 ## Your workflow (follow in order)
 
-1. Fork and clone the repository (or work on a branch if you have write access).
+1. Complete **Before you start** above (tools, GitHub auth, fork).
 2. Read these files before writing anything:
    - `AGENTS.md` — hard CI rules and workflow
    - `bestiary/NUMBERS.md` — pick an **unused** catalog number (1–200)
@@ -40,7 +118,7 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
 8. If the creature touches Mourning Reach, update `ecology/mourning-reach-web.md` and `canon/continuity-ledger.md`.
 9. Run `npm install && npm test`. Fix all failures before opening a PR.
 10. Optional: `npm run dev` and browse `#/` to preview locally.
-11. Open **one pull request per creature** using the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
+11. Push your branch and open **one pull request per creature** (see **Fork → PR sequence** above). Use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
 
 ## Hard constraints (CI enforced — PR will fail if violated)
 
