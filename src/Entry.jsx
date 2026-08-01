@@ -166,10 +166,10 @@ export default function Entry({ slug, entries, archiveLoading }) {
     );
   }
 
-  if (error === "not_found" || !entry) {
+  if (error && error !== "not_found") {
     return (
-      <div className="entry entry--missing">
-        <p className="dex-status">No record found for <code>{slug}</code>.</p>
+      <div className="entry entry--error">
+        <p className="dex-status dex-status--error">{error}</p>
         <p>
           <a href="#/">← Return to archive index</a>
         </p>
@@ -177,10 +177,10 @@ export default function Entry({ slug, entries, archiveLoading }) {
     );
   }
 
-  if (error) {
+  if (error === "not_found" || !entry) {
     return (
-      <div className="entry entry--error">
-        <p className="dex-status dex-status--error">{error}</p>
+      <div className="entry entry--missing">
+        <p className="dex-status">No record found for <code>{slug}</code>.</p>
         <p>
           <a href="#/">← Return to archive index</a>
         </p>

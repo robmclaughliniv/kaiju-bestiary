@@ -53,7 +53,7 @@ provider "aws" {
 }
 
 module "site" {
-  source = "git::https://github.com/robmclaughliniv/robmclaughl.in.git//terraform/modules/static-site?ref=static-site-v1.0.2"
+  source = "git::https://github.com/robmclaughliniv/robmclaughl.in.git//terraform/modules/static-site?ref=static-site-v1.0.3"
 
   app_name  = "kaiju-bestiary"
   subdomain = "kaiju-bestiary"
