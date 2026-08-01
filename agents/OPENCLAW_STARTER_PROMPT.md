@@ -123,8 +123,8 @@ After merge to `main`, dossiers sync to DynamoDB and the live Dex reads them at 
 10. Run `npm install && npm test`. Fix all failures before opening a PR.
 11. Optional: `npm run dev` and browse `#/` to preview locally — confirm the dex card and entry page show your image (not the guild seal).
 12. Push your branch and open **one pull request per creature** (see **Fork → PR sequence** above). Use the checklist in `.github/PULL_REQUEST_TEMPLATE.md`.
-13. **After the PR is open:** read the **Kaiju Review** bot review on GitHub. If it requests changes, fix every ❌ item, run `npm test`, commit, and push to the **same branch**. Do not open a new PR. Repeat until Kaiju Review **Approves** and the **Tests** check passes. See [REVIEW_BOT.md](./REVIEW_BOT.md).
-14. Do not ask the human operator to merge while Kaiju Review still shows **Request changes**.
+13. **Own the PR until green** (see **Own the PR until green** below). Keep watching reviews, comments, and CI until Kaiju Review **Approves**, **Tests** passes, and feedback is addressed. Do not abandon the PR after create.
+14. Do not ask the human operator to merge while checks are failing, Kaiju Review shows **Request changes**, or reviewer comments are unanswered.
 
 ## Hard constraints (CI enforced — PR will fail if violated)
 
@@ -250,10 +250,11 @@ git add art/images/NNN-kebab-name-hero.png
 - If unsure about a niche or number, open a **Propose a kaiju** issue first (`.github/ISSUE_TEMPLATE/propose-kaiju.md`).
 - Read existing dossiers in `bestiary/` so you do not duplicate silhouettes or habitats.
 - Generate hero artwork via image API when credentials are available (see **Generate hero artwork (image API)** above).
+- After opening a PR, keep monitoring it — do not abandon reviews, comments, or CI failures for the operator to clean up.
 
 ## Definition of done
 
-Before requesting review:
+Before requesting merge:
 
 - [ ] Unused catalog number chosen and recorded in `NUMBERS.md`
 - [ ] File created from `entry-template.md`
@@ -263,23 +264,62 @@ Before requesting review:
 - [ ] Hero artwork generated and committed at `art/images/NNN-kebab-name-hero.png` when image API access is available (otherwise noted as skipped in PR body)
 - [ ] `npm test` passes
 - [ ] PR checklist completed
+- [ ] PR checks green (**Kaiju Review** Approves, **Tests** passes) and outstanding review comments addressed or answered
+
+## Own the PR until green
+
+After you open a pull request, **you own it** until it is merge-ready. Do not hand
+off failures to the human operator. Do not ask for merge while checks or reviews
+are red. Stay on the **same branch** — never open a duplicate PR for the same
+creature.
+
+### What to listen for
+
+Check the PR periodically until merge-ready (or until the maintainer merges):
+
+| Signal | What to do |
+|--------|------------|
+| **Kaiju Review** | Approve vs Request changes — fix every ❌ (see [REVIEW_BOT.md](./REVIEW_BOT.md)) |
+| **Tests** / other Actions checks | Read failed job logs; fix locally; push again |
+| **PR conversation comments** | Maintainer, reviewers, or bots — reply or fix as needed |
+| **Inline review comments** | Address dossier/line feedback on the same branch |
+| **New commits you push** | Re-check reviews and CI after every push |
+
+### Commands to poll status
+
+Replace `PR_NUMBER` with your pull request number (from `gh pr create` or `gh pr view`).
+
+```bash
+# Status overview
+gh pr view --repo robmclaughliniv/kaiju-bestiary
+gh pr checks --repo robmclaughliniv/kaiju-bestiary
+gh pr view --repo robmclaughliniv/kaiju-bestiary --comments
+
+# Reviews and discussion
+gh api repos/robmclaughliniv/kaiju-bestiary/pulls/PR_NUMBER/reviews --jq '.[].body'
+gh api repos/robmclaughliniv/kaiju-bestiary/pulls/PR_NUMBER/comments --jq '.[].body'
+
+# Failed workflow logs
+gh run list --repo robmclaughliniv/kaiju-bestiary --branch YOUR_BRANCH --limit 5
+gh run view --repo robmclaughliniv/kaiju-bestiary --log-failed
+```
+
+### Fix loop
+
+1. Read the failing check, bot review, or human comment.
+2. Edit the dossier, `bestiary/NUMBERS.md`, ecology/ledger, or art as needed.
+3. Run `npm test` locally until green. For dossier issues, also run `npm run review-pr`.
+4. Commit and push to the **same PR branch**.
+5. Re-poll with `gh pr checks` and comments until **Kaiju Review** Approves, **Tests**
+   passes, and feedback is addressed.
+
+Details for the dossier bot: [REVIEW_BOT.md](./REVIEW_BOT.md). Local preview: `npm run review-pr`.
 
 ## What happens after merge
 
 The maintainer may do a final read of your PR. On merge, CI syncs your markdown
 to DynamoDB and the live Dex at https://kaiju-bestiary.robmclaughl.in shows
 your kaiju.
-
-## Before merge — Kaiju Review bot
-
-While your PR is open, the **Kaiju Review** GitHub Action reviews dossier
-changes automatically. If it requests changes:
-
-1. Read the review comment on the PR.
-2. Fix every required item, run `npm test`, commit, push to the same branch.
-3. Wait for Kaiju Review to re-run and Approve.
-
-Details: [REVIEW_BOT.md](./REVIEW_BOT.md). Local preview: `npm run review-pr`.
 
 ---
 

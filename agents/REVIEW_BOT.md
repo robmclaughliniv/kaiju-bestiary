@@ -51,7 +51,9 @@ short note and skips the dossier checklist. Code-only changes still require the
 ## Agent fix loop (required)
 
 After opening a PR, **do not ask for human merge** while Kaiju Review shows
-**Request changes**.
+**Request changes**. OpenClaw and other agents must also watch **Tests** failures
+and human PR comments — not only this bot — until the PR is green. Full ownership
+loop: [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md#own-the-pr-until-green).
 
 1. Read the bot's PR review — every line marked ❌ is a required fix.
 2. Edit the dossier, `bestiary/NUMBERS.md`, and ecology/ledger files as needed.
