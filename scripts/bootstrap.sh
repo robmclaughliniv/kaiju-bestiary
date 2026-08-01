@@ -83,6 +83,12 @@ if [ -n "${lambda_name:-}" ] && [ "$lambda_name" != "null" ]; then
   echo "    set LAMBDA_FUNCTION_NAME=$lambda_name"
 fi
 
+dynamodb_table="$(terraform output -raw dynamodb_table_name 2>/dev/null || true)"
+if [ -n "${dynamodb_table:-}" ] && [ "$dynamodb_table" != "null" ]; then
+  gh variable set DYNAMODB_TABLE_NAME --body "$dynamodb_table"
+  echo "    set DYNAMODB_TABLE_NAME=$dynamodb_table"
+fi
+
 cat <<DONE
 
 ==============================================================================
@@ -91,7 +97,7 @@ cat <<DONE
  Site URL (live after first deploy): $site_url
 
  CI variables set on this repo:
-   AWS_DEPLOY_ROLE_ARN, AWS_REGION, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID${lambda_name:+, LAMBDA_FUNCTION_NAME}
+   AWS_DEPLOY_ROLE_ARN, AWS_REGION, S3_BUCKET, CLOUDFRONT_DISTRIBUTION_ID${lambda_name:+, LAMBDA_FUNCTION_NAME}${dynamodb_table:+, DYNAMODB_TABLE_NAME}
 
  Next: commit the generated files and push to the default branch to trigger
  the first deploy:

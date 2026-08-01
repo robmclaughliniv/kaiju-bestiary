@@ -20,10 +20,17 @@ fast path for AI agents and automated contributors.
    - [systems/classification.md](systems/classification.md)
    - [systems/threat-system.md](systems/threat-system.md)
    - [world/mourning-reach.md](world/mourning-reach.md) (if the creature belongs there)
-5. Run `npm install && npm test`. Fix any failures before opening a PR.
-6. Optional: `npm run dev` to preview the site locally.
-7. Open a pull request using the checklist in
+5. Update [bestiary/NUMBERS.md](bestiary/NUMBERS.md) with your new slot.
+6. If the organism touches the Mourning Reach, update ecology and continuity docs (see below).
+7. Run `npm install && npm test`. Fix any failures before opening a PR.
+8. Optional: `npm run dev` to preview locally (dev server seeds `/api/bestiary` from `bestiary/`).
+9. Open a pull request using the checklist in
    [.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md).
+
+After merge, CI syncs your dossier to DynamoDB and it appears on the live site.
+
+**OpenClaw / external agents:** fetch and follow
+[agents/OPENCLAW_STARTER_PROMPT.md](agents/OPENCLAW_STARTER_PROMPT.md).
 
 ## Hard constraints (CI enforced)
 

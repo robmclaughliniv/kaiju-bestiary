@@ -4,7 +4,7 @@ import { workshopApiPlugin } from "./vite-plugin-workshop-api.js";
 
 export default defineConfig({
   plugins: [react(), workshopApiPlugin()],
-  // Lore markdown lives beside the app source (bestiary/, canon/, world/, ...)
-  // and is pulled in at build time via import.meta.glob in src/lore.js.
+  // Codex markdown lives beside the app source; artwork is bundled at build time.
+  // Numbered bestiary dossiers load at runtime via /api/bestiary.
   assetsInclude: ["**/*.md"],
 });

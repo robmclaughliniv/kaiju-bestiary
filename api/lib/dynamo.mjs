@@ -1,5 +1,11 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  GetCommand,
+  ScanCommand,
+  DeleteCommand,
+} from "@aws-sdk/lib-dynamodb";
 
 let client;
 
@@ -47,4 +53,44 @@ export async function scanItems(limit = 100) {
     })
   );
   return res.Items ?? [];
+}
+
+export async function scanItemsByKind(kind, limit = 500) {
+  const items = [];
+  let lastKey;
+
+  do {
+    const res = await getClient().send(
+      new ScanCommand({
+        TableName: tableName(),
+        FilterExpression: "#kind = :kind",
+        ExpressionAttributeNames: { "#kind": "kind" },
+        ExpressionAttributeValues: { ":kind": kind },
+        ExclusiveStartKey: lastKey,
+        Limit: limit,
+      })
+    );
+    items.push(...(res.Items ?? []));
+    lastKey = res.LastEvaluatedKey;
+  } while (lastKey && items.length < limit);
+
+  return items;
+}
+
+export async function upsertItem(item) {
+  await getClient().send(
+    new PutCommand({
+      TableName: tableName(),
+      Item: item,
+    })
+  );
+}
+
+export async function deleteItem(id) {
+  await getClient().send(
+    new DeleteCommand({
+      TableName: tableName(),
+      Key: { id },
+    })
+  );
 }

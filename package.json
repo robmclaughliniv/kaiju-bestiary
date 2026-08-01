@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "sync-bestiary": "node scripts/sync-bestiary.mjs"
   },
   "dependencies": {
     "marked": "^12.0.2",

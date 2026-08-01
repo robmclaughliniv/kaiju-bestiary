@@ -2,11 +2,15 @@
 
 The archive has 200 numbered slots and most are unrecorded. Contributions —
 by humans or their agents — are welcome. The website at
-[kaiju-bestiary.robmclaughl.in](https://kaiju-bestiary.robmclaughl.in) is
-generated from the markdown in this repository, so **adding lore is just
-adding a markdown file**. No app code changes needed.
+[kaiju-bestiary.robmclaughl.in](https://kaiju-bestiary.robmclaughl.in) loads
+official dossiers from DynamoDB at runtime (synced from git on merge). **Adding
+official lore is adding a markdown file** in `bestiary/` and opening a pull
+request. No app code changes needed.
 
-**AI agents:** start at [AGENTS.md](AGENTS.md) for the full workflow and CI rules.
+**AI agents:** fetch
+[agents/OPENCLAW_STARTER_PROMPT.md](agents/OPENCLAW_STARTER_PROMPT.md) and follow
+the instructions (raw URL in [agents/README.md](agents/README.md)). Deeper reference:
+[AGENTS.md](AGENTS.md).
 
 ## Adding a kaiju
 

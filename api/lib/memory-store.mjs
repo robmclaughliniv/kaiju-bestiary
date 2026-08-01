@@ -16,6 +16,24 @@ export function memoryPut(item) {
   items.set(item.id, item);
 }
 
+export function memoryListBestiary() {
+  return [...items.values()].filter((item) => item.kind === "bestiary");
+}
+
+export function memoryGetBestiaryBySlug(slug) {
+  const item = items.get(`bestiary:${slug}`);
+  if (!item || item.kind !== "bestiary") return null;
+  return item;
+}
+
+export function memoryUpsertBestiary(item) {
+  items.set(item.id, item);
+}
+
+export function memoryDeleteBestiary(slug) {
+  items.delete(`bestiary:${slug}`);
+}
+
 export function memoryReset() {
   items.clear();
 }

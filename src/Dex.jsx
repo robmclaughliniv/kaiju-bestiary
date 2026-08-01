@@ -1,8 +1,6 @@
 import { useMemo, useState } from "react";
-import { slots, entries, imageFor } from "./lore.js";
+import { imageFor } from "./lore.js";
 import Seal from "./Seal.jsx";
-
-const ORIGINS = [...new Set(entries.flatMap((e) => (e.origin || "").split("/").map((s) => s.trim().split(",")[0]).filter(Boolean)))].sort();
 
 function threatClass(threat) {
   const t = (threat || "").toLowerCase();
@@ -49,10 +47,16 @@ function EmptySlot({ number }) {
   );
 }
 
-export default function Dex() {
+export default function Dex({ slots, entries, loading, error }) {
   const [query, setQuery] = useState("");
   const [origin, setOrigin] = useState("");
   const [showEmpty, setShowEmpty] = useState(false);
+
+  const origins = useMemo(
+    () =>
+      [...new Set(entries.flatMap((e) => (e.origin || "").split("/").map((s) => s.trim().split(",")[0]).filter(Boolean)))].sort(),
+    [entries]
+  );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -69,7 +73,35 @@ export default function Dex() {
         return matchesQuery && matchesOrigin;
       });
     });
-  }, [query, origin, showEmpty]);
+  }, [slots, query, origin, showEmpty]);
+
+  if (loading) {
+    return (
+      <div className="dex">
+        <section className="dex-intro">
+          <h1>
+            Field Archive of <em>Colossal Organisms</em>
+          </h1>
+          <p className="dex-status">Loading the Guild archive…</p>
+        </section>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dex">
+        <section className="dex-intro">
+          <h1>
+            Field Archive of <em>Colossal Organisms</em>
+          </h1>
+          <p className="dex-status dex-status--error">
+            Could not reach the archive: {error}. The codex and workshop may still be available.
+          </p>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="dex">
@@ -95,7 +127,7 @@ export default function Dex() {
         />
         <select value={origin} onChange={(e) => setOrigin(e.target.value)} aria-label="Filter by origin class">
           <option value="">All origins</option>
-          {ORIGINS.map((o) => (
+          {origins.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>

@@ -1,8 +1,10 @@
 import { handleRequest } from "./api/lib/router.mjs";
+import { seedBestiaryMemoryStore } from "./scripts/seed-bestiary-memory.mjs";
 
 /** Vite dev middleware: same routes as production Lambda, in-memory store. */
 export function workshopApiPlugin() {
   process.env.WORKSHOP_MEMORY_STORE = "1";
+  seedBestiaryMemoryStore();
 
   return {
     name: "workshop-api",

@@ -1,56 +1,22 @@
-// Build-time ingestion of the repository's markdown lore.
+// Build-time ingestion of codex lore and static assets.
 //
-// Contributors never touch this file: drop a dossier in `bestiary/` (see
-// bestiary/entry-template.md) and it appears in the dex on the next build.
-// The parser is deliberately tolerant — it accepts both dossier styles found
-// in the archive ("No.001: Gravorax" classification-bullet style and
-// "No.045 — Bloomwraith" field-guide style) and keys metadata off any
-// `**Key:** value` line it can find.
+// Numbered bestiary dossiers load at runtime from /api/bestiary (DynamoDB).
+// Codex markdown and artwork stay in the bundle — small and static.
 
-import { parseEntry } from "./parse.js";
-
-const TOTAL_SLOTS = 200;
 export { parseEntry, parseMeta } from "./parse.js";
-
-const bestiaryFiles = import.meta.glob("../bestiary/*.md", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
 
 const codexFiles = import.meta.glob(
   ["../canon/*.md", "../world/*.md", "../guild/*.md", "../systems/*.md", "../ecology/*.md", "../art/*.md"],
   { eager: true, query: "?raw", import: "default" }
 );
 
-// Optional artwork: art/images/NNN-anything.(png|jpg|jpeg|webp|gif) is matched
-// to bestiary entries by number prefix.
 const imageFiles = import.meta.glob("../art/images/*.{png,jpg,jpeg,webp,gif}", {
   eager: true,
   query: "?url",
   import: "default",
 });
 
-function loadEntries() {
-  return Object.entries(bestiaryFiles)
-    .filter(([path]) => /\/\d{3}-/.test(path))
-    .map(([path, raw]) => parseEntry(path, raw))
-    .filter((e) => e.number !== null)
-    .sort((a, b) => a.number - b.number || a.slug.localeCompare(b.slug));
-}
-
-export const entries = loadEntries();
-
-// The dex has 200 numbered slots. A slot may hold zero, one, or several
-// records — the archive tracks contradictions rather than erasing them, so
-// duplicate numbers are rendered as parallel/disputed records.
-export const slots = Array.from({ length: TOTAL_SLOTS }, (_, i) => {
-  const number = i + 1;
-  return { number, records: entries.filter((e) => e.number === number) };
-});
-
-export const recordedCount = new Set(entries.map((e) => e.number)).size;
-export { TOTAL_SLOTS };
+export const TOTAL_SLOTS = 200;
 
 const CODEX_SECTIONS = {
   canon: "Canon",
@@ -86,7 +52,6 @@ export function imageFor(number) {
   return hit ? hit[1] : null;
 }
 
-// Origin class → accent hue for seals and badges.
 const ORIGIN_HUES = {
   primordial: 28,
   mineral: 200,
@@ -107,8 +72,6 @@ export function originHue(origin) {
   return ORIGIN_HUES[first] ?? 210;
 }
 
-// Deterministic "guild seal" geometry for entries without artwork: a layered
-// radial glyph seeded by the entry name, so every kaiju has a stable sigil.
 export function sealFor(name, number) {
   let h = 2166136261;
   const seedStr = `${number}-${name}`;

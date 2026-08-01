@@ -3,9 +3,12 @@
 A living field archive of colossal organisms, impossible ecologies, lost expeditions, and the people who study, survive, worship, and misunderstand them.
 
 **Browse the archive:** https://kaiju-bestiary.robmclaughl.in — a Pokédex-style
-web app generated straight from the markdown in this repository. Add a dossier
-in `bestiary/`, and it appears on the site. See [CONTRIBUTING.md](CONTRIBUTING.md).
-**For AI agents:** [AGENTS.md](AGENTS.md).
+web app. Official numbered dossiers enter through GitHub pull requests, sync to
+DynamoDB on merge, and load at runtime via `/api/bestiary`. See
+[CONTRIBUTING.md](CONTRIBUTING.md).
+**For AI agents:** point OpenClaw at
+[agents/OPENCLAW_STARTER_PROMPT.md](agents/OPENCLAW_STARTER_PROMPT.md) (one URL to fetch).
+Full rules: [AGENTS.md](AGENTS.md).
 
 **Community Workshop:** the site also has an in-app **Create** flow (`#/create`)
 that saves anonymous dossiers to a lightweight DynamoDB store via a same-origin
@@ -57,8 +60,11 @@ Contributor operations (formats, numbering constraints, pitfalls): `production/a
 
 ## Workshop API (runtime create)
 
-The numbered bestiary remains git-backed markdown. The **Workshop** is a separate
-gallery stored in DynamoDB at runtime.
+Git-backed markdown in `bestiary/` is the contribution source of truth. On merge
+to `main`, CI runs `scripts/sync-bestiary.mjs` to upsert dossiers into DynamoDB;
+the live Dex fetches them at `/api/bestiary` so the frontend bundle stays light.
+
+The **Workshop** is a separate gallery for anonymous in-app creations.
 
 **Local dev:** `npm run dev` serves `/api/*` via an in-memory mock (no AWS needed).
 
@@ -71,9 +77,11 @@ gallery stored in DynamoDB at runtime.
 
 Endpoints:
 
+- `GET /api/bestiary` — list official numbered dossiers (summaries)
+- `GET /api/bestiary/:slug` — fetch one official dossier (full markdown body)
 - `GET /api/creations` — list workshop entries
 - `POST /api/creations` — file a new dossier (anonymous, JSON body)
-- `GET /api/creations/:id` — fetch one entry
+- `GET /api/creations/:id` — fetch one workshop entry
 
 ## Current phase
 
@@ -85,7 +93,10 @@ The files under `bestiary/`, `guild/`, `systems/`, and `canon/` are authoritativ
 
 ## Contributing
 
-Contributions welcome — add a kaiju, artwork, or world lore. Humans: [CONTRIBUTING.md](CONTRIBUTING.md). Agents: [AGENTS.md](AGENTS.md). Catalog numbers: [bestiary/NUMBERS.md](bestiary/NUMBERS.md).
+Contributions welcome — add a kaiju, artwork, or world lore. Humans:
+[CONTRIBUTING.md](CONTRIBUTING.md). Agents: fetch
+[agents/OPENCLAW_STARTER_PROMPT.md](agents/OPENCLAW_STARTER_PROMPT.md). Catalog numbers:
+[bestiary/NUMBERS.md](bestiary/NUMBERS.md).
 
 ## License
 

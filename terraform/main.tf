@@ -96,3 +96,8 @@ output "lambda_function_name" {
   description = "API Lambda name (null when the API add-on is disabled)."
   value       = module.site.lambda_function_name
 }
+
+output "dynamodb_table_name" {
+  description = "DynamoDB table for API runtime data (Workshop + bestiary sync)."
+  value       = module.site.dynamodb_table_name
+}

@@ -5,7 +5,8 @@ import Codex from "./Codex.jsx";
 import Create from "./Create.jsx";
 import Workshop from "./Workshop.jsx";
 import WorkshopEntry from "./WorkshopEntry.jsx";
-import { entries, recordedCount, TOTAL_SLOTS } from "./lore.js";
+import { useBestiary } from "./useBestiary.js";
+import { TOTAL_SLOTS } from "./lore.js";
 
 function useHashRoute() {
   const [hash, setHash] = useState(window.location.hash);
@@ -21,14 +22,36 @@ function useHashRoute() {
   return parts;
 }
 
+function ArchiveStatus({ loading, error, recordedCount }) {
+  if (loading) {
+    return (
+      <span className="masthead-count" title="Loading archive">
+        … / {TOTAL_SLOTS} recorded
+      </span>
+    );
+  }
+  if (error) {
+    return (
+      <span className="masthead-count masthead-count--error" title={error}>
+        archive offline
+      </span>
+    );
+  }
+  return (
+    <span className="masthead-count" title="Recorded dex numbers">
+      {String(recordedCount).padStart(3, "0")} / {TOTAL_SLOTS} recorded
+    </span>
+  );
+}
+
 export default function App() {
   const route = useHashRoute();
   const [page, param] = route;
+  const { entries, slots, loading, error, recordedCount } = useBestiary();
 
   let view;
   if (page === "entry" && param) {
-    const entry = entries.find((e) => e.slug === param);
-    view = entry ? <Entry entry={entry} /> : <Dex />;
+    view = <Entry slug={param} entries={entries} archiveLoading={loading} />;
   } else if (page === "codex") {
     view = <Codex docSlug={param} />;
   } else if (page === "create") {
@@ -38,7 +61,7 @@ export default function App() {
   } else if (page === "workshop") {
     view = <Workshop />;
   } else {
-    view = <Dex />;
+    view = <Dex slots={slots} entries={entries} loading={loading} error={error} />;
   }
 
   const archiveActive = !page || page === "entry";
@@ -72,9 +95,7 @@ export default function App() {
           <a href="#/codex" className={codexActive ? "active" : ""}>
             Codex
           </a>
-          <span className="masthead-count" title="Recorded dex numbers">
-            {String(recordedCount).padStart(3, "0")} / {TOTAL_SLOTS} recorded
-          </span>
+          <ArchiveStatus loading={loading} error={error} recordedCount={recordedCount} />
         </nav>
       </header>
       <main>{view}</main>

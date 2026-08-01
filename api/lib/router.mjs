@@ -1,4 +1,5 @@
 import { listCreations, getCreation, createCreation } from "./creations.mjs";
+import { listBestiary, getBestiaryBySlug } from "./bestiary.mjs";
 
 const MAX_BODY_BYTES = 65536;
 
@@ -38,15 +39,27 @@ export async function handleRequest(event) {
     return json(200, item);
   }
 
+  if (path === "/api/bestiary" && method === "GET") {
+    const items = await listBestiary();
+    return json(200, { items }, "public, max-age=60");
+  }
+
+  const bestiaryDetail = path.match(/^\/api\/bestiary\/([^/]+)$/);
+  if (bestiaryDetail && method === "GET") {
+    const item = await getBestiaryBySlug(decodeURIComponent(bestiaryDetail[1]));
+    if (!item) return json(404, { error: "Not found" });
+    return json(200, item, "public, max-age=300");
+  }
+
   return json(404, { error: "Not found" });
 }
 
-function json(statusCode, body) {
+function json(statusCode, body, cacheControl = "no-store") {
   return {
     statusCode,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
+      "cache-control": cacheControl,
     },
     body: JSON.stringify(body),
   };

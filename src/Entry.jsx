@@ -1,4 +1,6 @@
-import { entries, imageFor } from "./lore.js";
+import { useEffect, useState } from "react";
+import { imageFor } from "./lore.js";
+import { fetchBestiaryEntry, parseBestiaryDetail } from "./bestiary-api.js";
 import Markdown from "./Markdown.jsx";
 import Seal from "./Seal.jsx";
 import ThreatPanel from "./ThreatPanel.jsx";
@@ -28,11 +30,9 @@ function IdentityTable({ entry }) {
   );
 }
 
-export default function Entry({ entry }) {
+function EntryDossier({ entry, entries }) {
   const img = imageFor(entry.number);
-  const siblings = entries.filter(
-    (e) => e.number === entry.number && e.slug !== entry.slug
-  );
+  const siblings = entries.filter((e) => e.number === entry.number && e.slug !== entry.slug);
   const idx = entries.findIndex((e) => e.slug === entry.slug);
   const prev = entries[idx - 1];
   const next = entries[idx + 1];
@@ -123,4 +123,70 @@ export default function Entry({ entry }) {
       )}
     </article>
   );
+}
+
+export default function Entry({ slug, entries, archiveLoading }) {
+  const [entry, setEntry] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    setEntry(null);
+
+    fetchBestiaryEntry(slug)
+      .then((detail) => {
+        if (cancelled) return;
+        if (!detail) {
+          setError("not_found");
+          return;
+        }
+        setEntry(parseBestiaryDetail(detail));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setError(err.message || "Could not load entry");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  if (loading || archiveLoading) {
+    return (
+      <div className="entry entry--loading">
+        <p className="dex-status">Retrieving dossier No.{slug}…</p>
+      </div>
+    );
+  }
+
+  if (error === "not_found" || !entry) {
+    return (
+      <div className="entry entry--missing">
+        <p className="dex-status">No record found for <code>{slug}</code>.</p>
+        <p>
+          <a href="#/">← Return to archive index</a>
+        </p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="entry entry--error">
+        <p className="dex-status dex-status--error">{error}</p>
+        <p>
+          <a href="#/">← Return to archive index</a>
+        </p>
+      </div>
+    );
+  }
+
+  return <EntryDossier entry={entry} entries={entries} />;
 }
