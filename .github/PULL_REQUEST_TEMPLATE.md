@@ -14,6 +14,7 @@
 - [ ] Prose paragraph under an `##` section (dex card excerpt)
 - [ ] `## Canon connections` with at least two links to existing canon
 - [ ] Six-axis threat table filled in ([systems/threat-system.md](../systems/threat-system.md))
+- [ ] `Operational class`, `Primary ecology`, and `Known range` set (Working entries; CI enforced)
 - [ ] Distinct silhouette — does not duplicate Founding Four or botanical entries
 - [ ] [bestiary/NUMBERS.md](../bestiary/NUMBERS.md) updated with the new slot
 - [ ] Mourning Reach ecology updated if applicable ([ecology/mourning-reach-web.md](../ecology/mourning-reach-web.md))

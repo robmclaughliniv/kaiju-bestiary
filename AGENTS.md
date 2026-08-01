@@ -43,6 +43,9 @@ After merge, CI syncs your dossier to DynamoDB and it appears on the live site.
 | Body length | Raw markdown must exceed 400 characters. |
 | Excerpt | At least one **prose paragraph** under an `##` section (not only lists or tables). Put real description in `## Identification` or similar. |
 | Canon connections | Working entries must include `## Canon connections` with **at least two** bullet items linking to existing lore. |
+| NUMBERS.md | Every `bestiary/NNN-*.md` file must appear in [bestiary/NUMBERS.md](bestiary/NUMBERS.md) under **All recorded slots**. |
+| Threat assessment | Working entries must include a **six-axis** `## Threat assessment` table (Scale, Lethality, Reach, Persistence, Intelligence, Cascade; ratings 0–5). |
+| Working metadata | Working entries must declare `Operational class`, `Primary ecology`, and `Known range`. |
 | Expand the world | Do not duplicate an existing silhouette, habitat, or narrative function. See the Founding Four in [README.md](README.md). |
 
 ## Dex metadata (what the UI reads)

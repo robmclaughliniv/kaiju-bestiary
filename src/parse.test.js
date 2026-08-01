@@ -5,12 +5,24 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { parseEntry, parseMeta } from "./parse.js";
+import { parseEntry, parseMeta, parseThreatAxes } from "./parse.js";
 
 const bestiaryDir = join(__dirname, "..", "bestiary");
+const numbersPath = join(bestiaryDir, "NUMBERS.md");
 const files = readdirSync(bestiaryDir).filter(
   (f) => f.endsWith(".md") && /^\d{3}-/.test(f)
 );
+
+const REQUIRED_THREAT_AXES = [
+  "Scale",
+  "Lethality",
+  "Reach",
+  "Persistence",
+  "Intelligence",
+  "Cascade",
+];
+
+const WORKING_META_KEYS = ["operational class", "primary ecology", "known range"];
 
 // Founding Four numbers (C-006) plus known C-007 parallel records only.
 const FOUNDING_FOUR_ALLOWED = {
@@ -35,6 +47,44 @@ function countCanonConnectionItems(markdown) {
   }
   return 0;
 }
+
+function parseNumbersInventory(markdown) {
+  const parts = markdown.split(/^## All recorded slots\s/mi);
+  if (parts.length < 2) return [];
+  const section = parts[1].split(/^## /m)[0];
+  const inventory = [];
+  for (const match of section.matchAll(/`(\d{3}-[^`]+\.md)`/g)) {
+    inventory.push(match[1]);
+  }
+  return inventory;
+}
+
+function isWorkingCanon(status) {
+  return status?.toLowerCase().includes("working");
+}
+
+describe("NUMBERS.md inventory", () => {
+  const numbersRaw = readFileSync(numbersPath, "utf8");
+  const inventory = parseNumbersInventory(numbersRaw);
+
+  it("lists every numbered bestiary file", () => {
+    for (const file of files) {
+      expect(
+        inventory,
+        `${file} is missing from bestiary/NUMBERS.md — add a row under All recorded slots`
+      ).toContain(file);
+    }
+  });
+
+  it("only lists files that exist on disk", () => {
+    for (const name of inventory) {
+      expect(
+        files,
+        `${name} in NUMBERS.md has no matching file in bestiary/`
+      ).toContain(name);
+    }
+  });
+});
 
 describe("bestiary archive", () => {
   it("contains at least the Founding Four", () => {
@@ -83,12 +133,40 @@ describe("bestiary archive", () => {
       });
 
       it("includes Canon connections when Working canon", () => {
-        if (!entry.status?.toLowerCase().includes("working")) return;
+        if (!isWorkingCanon(entry.status)) return;
         const count = countCanonConnectionItems(raw);
         expect(
           count,
           "Working entries need `## Canon connections` with at least two bullet items — see AGENTS.md"
         ).toBeGreaterThanOrEqual(2);
+      });
+
+      it("includes a six-axis Threat assessment table when Working canon", () => {
+        if (!isWorkingCanon(entry.status)) return;
+        const axes = parseThreatAxes(raw);
+        expect(
+          axes,
+          "Working entries need `## Threat assessment` with a six-axis GFM table — see systems/threat-system.md"
+        ).toBeTruthy();
+        expect(axes).toHaveLength(6);
+        for (const name of REQUIRED_THREAT_AXES) {
+          expect(axes.some((row) => row.axis === name), `missing axis ${name}`).toBe(true);
+        }
+        for (const row of axes) {
+          expect(row.rating, `${row.axis} rating must be 0–5`).toBeGreaterThanOrEqual(0);
+          expect(row.rating, `${row.axis} rating must be 0–5`).toBeLessThanOrEqual(5);
+        }
+      });
+
+      it("declares Working metadata keys when Working canon", () => {
+        if (!isWorkingCanon(entry.status)) return;
+        const meta = parseMeta(raw);
+        for (const key of WORKING_META_KEYS) {
+          expect(
+            meta[key],
+            `Working entries need \`**${key.charAt(0).toUpperCase() + key.slice(1)}:**\` — see entry-template.md`
+          ).toBeTruthy();
+        }
       });
     });
   }
