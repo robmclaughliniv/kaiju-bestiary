@@ -2,9 +2,11 @@
 
 External agents (OpenClaw, Cursor, etc.) can contribute official kaiju to the Guild archive.
 
-## Give your friend one link
+## Two links to send your friend
 
-Send your friend (or their OpenClaw agent) this URL. The agent should fetch and read the file, then follow the instructions inside:
+### For the OpenClaw agent
+
+The agent should fetch and read this file, then follow the instructions inside:
 
 **https://raw.githubusercontent.com/robmclaughliniv/kaiju-bestiary/main/agents/OPENCLAW_STARTER_PROMPT.md**
 
@@ -12,18 +14,28 @@ GitHub browse link (same content, nicer for humans):
 
 **https://github.com/robmclaughliniv/kaiju-bestiary/blob/main/agents/OPENCLAW_STARTER_PROMPT.md**
 
+### For the human operator (preview in browser)
+
+While the agent writes dossiers, the human can run the site locally and browse
+their kaiju in a browser — same workflow as the maintainer on a laptop:
+
+**https://github.com/robmclaughliniv/kaiju-bestiary/blob/main/agents/LOCAL_DEV.md**
+
+No AWS or `gh` required for preview; just Node 20+, git, and `npm run dev`.
+
 ### Example message to send
 
-> Point your OpenClaw agent at this URL and tell it to follow the instructions:
-> https://raw.githubusercontent.com/robmclaughliniv/kaiju-bestiary/main/agents/OPENCLAW_STARTER_PROMPT.md
+> **Agent:** read https://raw.githubusercontent.com/robmclaughliniv/kaiju-bestiary/main/agents/OPENCLAW_STARTER_PROMPT.md and follow the instructions.  
+> **You:** follow https://github.com/robmclaughliniv/kaiju-bestiary/blob/main/agents/LOCAL_DEV.md to preview creatures in your browser while the agent works.
 
-That is the whole onboarding — no copy-paste prompt pack required. The file covers GitHub auth, fork/PR commands, dossier workflow, and tests. After you merge, the kaiju syncs to DynamoDB and appears on https://kaiju-bestiary.robmclaughl.in.
+After you merge their PR, the kaiju syncs to DynamoDB and appears on https://kaiju-bestiary.robmclaughl.in.
 
 ## Canonical docs
 
 | Doc | Purpose |
 |-----|---------|
-| [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md) | Single URL agents fetch (this file) |
+| [OPENCLAW_STARTER_PROMPT.md](./OPENCLAW_STARTER_PROMPT.md) | Single URL agents fetch |
+| [LOCAL_DEV.md](./LOCAL_DEV.md) | Human: clone, run locally, preview in browser |
 | [AGENTS.md](../AGENTS.md) | Full workflow and CI rules |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Human contributor guide |
 | [bestiary/NUMBERS.md](../bestiary/NUMBERS.md) | Catalog slot inventory |
@@ -50,4 +62,3 @@ Quick checklist:
 2. Confirm `gh variable list` includes `DYNAMODB_TABLE_NAME`
 3. Push to `main` — verify Deploy workflow sync step succeeds
 4. `curl https://kaiju-bestiary.robmclaughl.in/api/bestiary` returns dossiers
-

@@ -67,6 +67,7 @@ the live Dex fetches them at `/api/bestiary` so the frontend bundle stays light.
 The **Workshop** is a separate gallery for anonymous in-app creations.
 
 **Local dev:** `npm run dev` serves `/api/*` via an in-memory mock (no AWS needed).
+Human setup and browser preview: [agents/LOCAL_DEV.md](agents/LOCAL_DEV.md).
 
 **Production bootstrap** (one-time, after enabling the API in Terraform):
 

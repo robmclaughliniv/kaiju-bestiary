@@ -77,9 +77,12 @@ If `gh pr create` fails, open the PR manually on GitHub: compare `robmclaughlini
 
 ### Local preview (optional)
 
+**Human operators:** see [LOCAL_DEV.md](./LOCAL_DEV.md) for the full clone → browser
+setup (no AWS or `gh` required).
+
 ```bash
 npm run dev
-# Open http://localhost:5173/#/ — dev server seeds /api/bestiary from bestiary/*.md
+# Open http://localhost:5173/#/ — save bestiary/*.md, then refresh browser to preview
 ```
 
 ## Repository

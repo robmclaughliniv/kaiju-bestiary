@@ -13,6 +13,12 @@ export function workshopApiPlugin() {
         if (!req.url?.startsWith("/api/")) return next();
 
         const url = new URL(req.url, "http://localhost");
+        // Re-read bestiary/*.md on each bestiary API request so save + browser
+        // refresh picks up edits without restarting the dev server.
+        if (url.pathname === "/api/bestiary" || url.pathname.startsWith("/api/bestiary/")) {
+          seedBestiaryMemoryStore();
+        }
+
         const method = req.method || "GET";
         let body = "";
 

@@ -80,9 +80,15 @@ material **provisional**, **disputed**, or **apocryphal**.
 
 ## Running the site locally
 
+Clone the repo, install dependencies, and start the Vite dev server. The Dex and
+entry pages load from an in-memory API seeded from `bestiary/` — no AWS needed.
+
+**Full walkthrough:** [agents/LOCAL_DEV.md](agents/LOCAL_DEV.md) (preview in browser,
+find your entry URL, troubleshooting).
+
 ```bash
 npm install
-npm run dev    # dev server
+npm run dev    # open http://localhost:5173/ — refresh after editing dossiers
 npm test       # entry validation + parser tests
 npm run build  # static build to dist/
 ```
