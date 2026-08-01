@@ -1,5 +1,7 @@
 # Bestiary No.XXX — Guild Name
 
+Use this template for **Working field dossiers**. Established archive spreads (Founding Four) use a different shape; see `production/archive-workflow.md` before assigning a catalog number.
+
 **Canon status:** Working canon  
 **Operational class:** TBD  
 **Known range:** TBD  
