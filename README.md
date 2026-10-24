@@ -1,5 +1,7 @@
 # The Kaiju Bestiary
 
+Hello, world!
+
 A living field archive of colossal organisms, impossible ecologies, lost expeditions, and the people who study, survive, worship, and misunderstand them.
 
 **Browse the archive:** https://kaiju-bestiary.robmclaughl.in — a Pokédex-style
